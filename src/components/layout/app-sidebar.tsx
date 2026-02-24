@@ -73,8 +73,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     <Database className="size-4" />
                                 </div>
                                 <div className="flex flex-col gap-0.5 leading-none">
-                                    <span className="font-semibold text-indigo-400">NATS Nexus</span>
-                                    <span className="text-xs text-slate-500">v1.0.0</span>
+                                    <span className="font-semibold text-indigo-400">Cobra NATS</span>
+                                    <span className="text-xs text-slate-500">v0.1.0</span>
                                 </div>
                             </Link>
                         </SidebarMenuButton>

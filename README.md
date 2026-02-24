@@ -1,4 +1,4 @@
-# NATS Nexus UI
+# Cobra NATS v0.1.0
 
 A professional management UI for NATS.
 

@@ -89,11 +89,11 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
             subjects: values.subjects.split(",").map(s => s.trim()),
             retention: values.retention as any,
             storage: values.storage as any,
-            max_msgs: values.max_msgs,
-            max_bytes: values.max_bytes,
-            max_age: values.max_age,
+            max_msgs: Number(values.max_msgs),
+            max_bytes: Number(values.max_bytes),
+            max_age: Number(values.max_age),
             discard: values.discard as any,
-            num_replicas: values.replicas,
+            num_replicas: Number(values.replicas),
         } as any);
 
         setIsSubmitting(false);
@@ -175,8 +175,8 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent className="bg-slate-900 border-slate-800">
-                                                <SelectItem value={StorageType.File.toString()}>File</SelectItem>
-                                                <SelectItem value={StorageType.Memory.toString()}>Memory</SelectItem>
+                                                <SelectItem value={StorageType.File}>File</SelectItem>
+                                                <SelectItem value={StorageType.Memory}>Memory</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />
@@ -189,16 +189,16 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Retention Policy</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger className="bg-slate-900 border-slate-800">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent className="bg-slate-900 border-slate-800">
-                                                <SelectItem value={RetentionPolicy.Limits.toString()}>Limits</SelectItem>
-                                                <SelectItem value={RetentionPolicy.Interest.toString()}>Interest</SelectItem>
-                                                <SelectItem value={RetentionPolicy.WorkQueue.toString()}>Work Queue</SelectItem>
+                                                <SelectItem value={RetentionPolicy.Limits}>Limits</SelectItem>
+                                                <SelectItem value={RetentionPolicy.Interest}>Interest</SelectItem>
+                                                <SelectItem value={RetentionPolicy.WorkQueue}>Work Queue</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />

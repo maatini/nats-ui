@@ -14,7 +14,7 @@ test.describe('JetStream Streams', () => {
                 },
                 version: 0
             };
-            localStorage.setItem('nats-nexus-storage', JSON.stringify(state));
+            localStorage.setItem('cobra-nats-storage', JSON.stringify(state));
         });
         await page.reload();
     });

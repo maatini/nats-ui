@@ -1,17 +1,17 @@
 export enum RetentionPolicy {
-    Limits = 0,
-    Interest = 1,
-    WorkQueue = 2,
+    Limits = "limits",
+    Interest = "interest",
+    WorkQueue = "workqueue",
 }
 
 export enum StorageType {
-    File = 0,
-    Memory = 1,
+    File = "file",
+    Memory = "memory",
 }
 
 export enum DiscardPolicy {
-    Old = 0,
-    New = 1,
+    Old = "old",
+    New = "new",
 }
 
 export enum AckPolicy {

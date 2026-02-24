@@ -12,7 +12,7 @@ export class NatsManager {
   private js: Map<string, JetStreamClient> = new Map();
   private jc = JSONCodec();
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): NatsManager {
     if (!NatsManager.instance) {
@@ -33,7 +33,7 @@ export class NatsManager {
         user: config.user,
         pass: config.pass,
         token: config.token,
-        name: `NATS Nexus - ${config.name}`,
+        name: `Cobra NATS - ${config.name}`,
         // Add more options as needed
       });
       this.connections.set(config.id, nc);

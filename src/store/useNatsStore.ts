@@ -56,7 +56,7 @@ export const useNatsStore = create<NatsState>()(
                 })),
         }),
         {
-            name: "nats-nexus-storage",
+            name: "cobra-nats-storage",
             storage: createJSONStorage(() => localStorage),
         }
     )

@@ -6,8 +6,8 @@ import { RootProvider } from "@/components/providers/root-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NATS Nexus",
-  description: "Professional NATS Management UI",
+  title: "Cobra NATS",
+  description: "Modern NATS Web UI",
 };
 
 export default function RootLayout({
