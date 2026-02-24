@@ -1,6 +1,10 @@
 # Cobra NATS
 
+
 > **v0.1.0** — A modern, professional management UI for NATS and JetStream.
+
+![Cobra NATS](./cobra_nats.png)
+
 
 Cobra NATS is a web-based administration dashboard for [NATS](https://nats.io), built with Next.js. It lets you manage JetStream streams, Key-Value stores, publish messages, and monitor live traffic — all from a sleek, dark-mode UI without requiring any CLI tooling.
 
