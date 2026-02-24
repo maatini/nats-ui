@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetpack-io/devbox/main/.schema/devbox.schema.json",
+  "packages": [
+    "nats-server@latest",
+    "natscli@latest",
+    "nodejs_20@latest",
+    "jq@latest",
+    "curl@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to the NATS-UI development environment!'"
+    ],
+    "scripts": {
+      "start-nats": "nats-server -p 4222",
+      "nats-info": "nats info"
+    }
+  }
+}

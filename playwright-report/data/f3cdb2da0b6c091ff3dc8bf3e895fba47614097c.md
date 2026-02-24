@@ -1,0 +1,240 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "NATS Nexus v1.0.0" [ref=e9] [cursor=pointer]:
+            - /url: /
+            - img [ref=e11]
+            - generic [ref=e15]:
+              - generic [ref=e16]: NATS Nexus
+              - generic [ref=e17]: v1.0.0
+      - list [ref=e19]:
+        - listitem [ref=e20]:
+          - link "Dashboard" [ref=e21] [cursor=pointer]:
+            - /url: /
+            - img [ref=e22]
+            - generic [ref=e27]: Dashboard
+        - listitem [ref=e28]:
+          - link "Streams" [ref=e29] [cursor=pointer]:
+            - /url: /streams
+            - img [ref=e30]
+            - generic [ref=e34]: Streams
+        - listitem [ref=e35]:
+          - link "KV Stores" [ref=e36] [cursor=pointer]:
+            - /url: /kv
+            - img [ref=e37]
+            - generic [ref=e41]: KV Stores
+        - listitem [ref=e42]:
+          - link "Publish" [ref=e43] [cursor=pointer]:
+            - /url: /publish
+            - img [ref=e44]
+            - generic [ref=e47]: Publish
+        - listitem [ref=e48]:
+          - link "Monitor" [ref=e49] [cursor=pointer]:
+            - /url: /monitor
+            - img [ref=e50]
+            - generic [ref=e52]: Monitor
+        - listitem [ref=e53]:
+          - link "Settings" [ref=e54] [cursor=pointer]:
+            - /url: /settings
+            - img [ref=e55]
+            - generic [ref=e58]: Settings
+      - list [ref=e60]:
+        - listitem [ref=e61]:
+          - button "New Connection" [ref=e62]:
+            - img [ref=e63]
+            - generic [ref=e64]: New Connection
+      - button "Toggle Sidebar" [ref=e65]
+    - main [ref=e66]:
+      - generic [ref=e67]:
+        - button "Toggle Sidebar" [ref=e68]:
+          - img
+          - generic [ref=e69]: Toggle Sidebar
+        - button "Conn 1" [ref=e71]:
+          - img
+          - generic [ref=e72]: Conn 1
+          - img
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - img [ref=e76]
+              - text: Connected
+            - generic [ref=e80]: 12ms
+          - generic [ref=e81]: MR
+      - main [ref=e82]:
+        - generic [ref=e83]:
+          - generic [ref=e84]:
+            - heading "Welcome to NATS Nexus" [level=1] [ref=e85]
+            - paragraph [ref=e86]: Monitor and manage your NATS infrastructure from a single dashboard.
+          - generic [ref=e87]:
+            - generic [ref=e88]:
+              - generic [ref=e89]:
+                - generic [ref=e90]: Total Connections
+                - img [ref=e91]
+              - generic [ref=e95]:
+                - generic [ref=e96]: "2"
+                - paragraph [ref=e97]: Saved in your browser
+            - generic [ref=e98]:
+              - generic [ref=e99]:
+                - generic [ref=e100]: Active Server
+                - img [ref=e101]
+              - generic [ref=e104]:
+                - generic [ref=e105]: Connected
+                - paragraph [ref=e106]: Conn 1
+            - generic [ref=e107]:
+              - generic [ref=e108]:
+                - generic [ref=e109]: Streams
+                - img [ref=e110]
+              - generic [ref=e114]:
+                - generic [ref=e115]: "--"
+                - paragraph [ref=e116]: JetStream stats
+            - generic [ref=e117]:
+              - generic [ref=e118]:
+                - generic [ref=e119]: Total Throughtput
+                - img [ref=e120]
+              - generic [ref=e122]:
+                - generic [ref=e123]: 0 B/s
+                - paragraph [ref=e124]: Across all subjects
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - generic [ref=e128]:
+                - generic [ref=e129]:
+                  - generic [ref=e130]: Active Connection
+                  - generic [ref=e131]: Server status and information
+                - generic [ref=e132]: Online
+              - generic [ref=e134]:
+                - generic [ref=e135]:
+                  - generic [ref=e136]:
+                    - img [ref=e138]
+                    - generic [ref=e140]:
+                      - generic [ref=e141]: Server Name
+                      - generic [ref=e142]: Conn 1
+                  - generic [ref=e143]: nats-main-01
+                - generic [ref=e144]:
+                  - generic [ref=e145]:
+                    - img [ref=e147]
+                    - generic [ref=e149]:
+                      - generic [ref=e150]: Uptime
+                      - generic [ref=e151]: Time since last restart
+                  - generic [ref=e152]: 4d 12h 30m
+                - generic [ref=e153]:
+                  - generic [ref=e154]: Servers
+                  - generic [ref=e156]: localhost:4222
+            - generic [ref=e157]:
+              - generic [ref=e158]:
+                - generic [ref=e159]: Quick Actions
+                - generic [ref=e160]: Common management tasks
+              - generic [ref=e161]:
+                - link "Publish Message" [ref=e162] [cursor=pointer]:
+                  - /url: /publish
+                  - img
+                  - generic [ref=e163]: Publish Message
+                  - img
+                - link "Create Stream" [ref=e164] [cursor=pointer]:
+                  - /url: /streams
+                  - img
+                  - generic [ref=e165]: Create Stream
+                  - img
+                - link "Open Subject Monitor" [ref=e166] [cursor=pointer]:
+                  - /url: /monitor
+                  - img
+                  - generic [ref=e167]: Open Subject Monitor
+                  - img
+                - link "Browse KV Stores" [ref=e168] [cursor=pointer]:
+                  - /url: /kv
+                  - img
+                  - generic [ref=e169]: Browse KV Stores
+                  - img
+  - region "Notifications alt+T"
+  - generic [active]:
+    - generic [ref=e172]:
+      - generic [ref=e173]:
+        - generic [ref=e174]:
+          - navigation [ref=e175]:
+            - button "previous" [disabled] [ref=e176]:
+              - img "previous" [ref=e177]
+            - generic [ref=e179]:
+              - generic [ref=e180]: 1/
+              - text: "1"
+            - button "next" [disabled] [ref=e181]:
+              - img "next" [ref=e182]
+          - img
+        - generic [ref=e184]:
+          - generic [ref=e185]:
+            - img [ref=e186]
+            - generic "Latest available version is detected (16.1.6)." [ref=e188]: Next.js 16.1.6
+            - generic [ref=e189]: Turbopack
+          - img
+      - dialog "Build Error" [ref=e191]:
+        - generic [ref=e194]:
+          - generic [ref=e195]:
+            - generic [ref=e196]:
+              - generic [ref=e198]: Build Error
+              - generic [ref=e199]:
+                - button "Copy Error Info" [ref=e200] [cursor=pointer]:
+                  - img [ref=e201]
+                - link "Go to related documentation" [ref=e203] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/messages/module-not-found
+                  - img [ref=e204]
+                - button "Attach Node.js inspector" [ref=e206] [cursor=pointer]:
+                  - img [ref=e207]
+            - generic [ref=e216]: "Module not found: Can't resolve 'dns'"
+          - generic [ref=e218]:
+            - generic [ref=e220]:
+              - img [ref=e222]
+              - generic [ref=e224]: ./node_modules/nats/lib/src/node_transport.js (47:13)
+              - button "Open in editor" [ref=e225] [cursor=pointer]:
+                - img [ref=e227]
+            - generic [ref=e230]:
+              - generic [ref=e231]: Module not found
+              - generic [ref=e232]: ": Can't resolve"
+              - text: "'dns'"
+              - generic [ref=e233]: 45 |
+              - text: const
+              - generic [ref=e234]: "{ resolve }"
+              - text: =
+              - generic [ref=e235]: require(
+              - text: "\"path\");"
+              - generic [ref=e236]: 46 |
+              - text: const
+              - generic [ref=e237]: "{ readFile"
+              - text: ","
+              - generic [ref=e238]: "existsSync }"
+              - text: =
+              - generic [ref=e239]: require(
+              - text: "\"fs\"); >"
+              - generic [ref=e240]: 47 |
+              - text: const
+              - generic [ref=e241]: dns
+              - text: =
+              - generic [ref=e242]: require(
+              - text: "\"dns\");"
+              - generic [ref=e243]: "|"
+              - text: ^^^^^^^^^^^^^^
+              - generic [ref=e244]: 48 |
+              - text: const VERSION = "2.29.3";
+              - generic [ref=e245]: 49 |
+              - text: const LANG = "nats.js";
+              - generic [ref=e246]: 50 |
+              - text: class NodeTransport
+              - generic [ref=e247]: "{"
+              - generic [ref=e248]:
+                - text: "Import traces: Server Component: ./node_modules/nats/lib/src/node_transport.js ./node_modules/nats/lib/src/connect.js ./node_modules/nats/lib/src/mod.js ./node_modules/nats/index.js ./src/lib/nats/NatsManager.ts ./src/app/actions/stream-actions.ts Client Component Browser: ./node_modules/nats/lib/src/node_transport.js [Client Component Browser] ./node_modules/nats/lib/src/connect.js [Client Component Browser] ./node_modules/nats/lib/src/mod.js [Client Component Browser] ./node_modules/nats/index.js [Client Component Browser] ./src/components/streams/create-stream-dialog.tsx [Client Component Browser] ./src/app/(dashboard)/streams/page.tsx [Client Component Browser] ./src/app/(dashboard)/streams/page.tsx [Server Component] Client Component SSR: ./node_modules/nats/lib/src/node_transport.js [Client Component SSR] ./node_modules/nats/lib/src/connect.js [Client Component SSR] ./node_modules/nats/lib/src/mod.js [Client Component SSR] ./node_modules/nats/index.js [Client Component SSR] ./src/components/streams/create-stream-dialog.tsx [Client Component SSR] ./src/app/(dashboard)/streams/page.tsx [Client Component SSR] ./src/app/(dashboard)/streams/page.tsx [Server Component]"
+                - link "https://nextjs.org/docs/messages/module-not-found" [ref=e249] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/messages/module-not-found
+        - generic [ref=e250]: "1"
+        - generic [ref=e251]: "2"
+    - generic [ref=e256] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e257]:
+        - img [ref=e258]
+      - button "Open issues overlay" [ref=e262]:
+        - generic [ref=e263]:
+          - generic [ref=e264]: "0"
+          - generic [ref=e265]: "1"
+        - generic [ref=e266]: Issue
+  - alert [ref=e267]
+```

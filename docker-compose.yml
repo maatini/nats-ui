@@ -1,0 +1,20 @@
+services:
+  nats:
+    image: nats:latest
+    container_name: nats-nexus-server
+    ports:
+      - "4222:4222" # NATS Client Port
+      - "8222:8222" # NATS Monitoring Port
+      - "6222:6222" # NATS Cluster Port
+    command: 
+      - "-js" # Enable JetStream
+      - "-m"
+      - "8222" # Enable Monitoring
+      - "--sd"
+      - "/data" # Store JetStream data in /data
+    volumes:
+      - nats_data:/data
+    restart: unless-stopped
+
+volumes:
+  nats_data:

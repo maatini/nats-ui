@@ -1,0 +1,171 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "NATS Nexus v1.0.0" [ref=e9] [cursor=pointer]:
+            - /url: /
+            - img [ref=e11]
+            - generic [ref=e15]:
+              - generic [ref=e16]: NATS Nexus
+              - generic [ref=e17]: v1.0.0
+      - list [ref=e19]:
+        - listitem [ref=e20]:
+          - link "Dashboard" [ref=e21] [cursor=pointer]:
+            - /url: /
+            - img [ref=e22]
+            - generic [ref=e27]: Dashboard
+        - listitem [ref=e28]:
+          - link "Streams" [ref=e29] [cursor=pointer]:
+            - /url: /streams
+            - img [ref=e30]
+            - generic [ref=e34]: Streams
+        - listitem [ref=e35]:
+          - link "KV Stores" [ref=e36] [cursor=pointer]:
+            - /url: /kv
+            - img [ref=e37]
+            - generic [ref=e41]: KV Stores
+        - listitem [ref=e42]:
+          - link "Publish" [ref=e43] [cursor=pointer]:
+            - /url: /publish
+            - img [ref=e44]
+            - generic [ref=e47]: Publish
+        - listitem [ref=e48]:
+          - link "Monitor" [ref=e49] [cursor=pointer]:
+            - /url: /monitor
+            - img [ref=e50]
+            - generic [ref=e52]: Monitor
+        - listitem [ref=e53]:
+          - link "Settings" [ref=e54] [cursor=pointer]:
+            - /url: /settings
+            - img [ref=e55]
+            - generic [ref=e58]: Settings
+      - list [ref=e60]:
+        - listitem [ref=e61]:
+          - button "New Connection" [ref=e62]:
+            - img [ref=e63]
+            - generic [ref=e64]: New Connection
+      - button "Toggle Sidebar" [ref=e65]
+    - main [ref=e66]:
+      - generic [ref=e67]:
+        - button "Toggle Sidebar" [ref=e68]:
+          - img
+          - generic [ref=e69]: Toggle Sidebar
+        - button "Local" [ref=e71]:
+          - img
+          - generic [ref=e72]: Local
+          - img
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - img [ref=e76]
+              - text: Connected
+            - generic [ref=e80]: 12ms
+          - generic [ref=e81]: MR
+      - main [ref=e82]:
+        - generic [ref=e83]:
+          - generic [ref=e84]:
+            - generic [ref=e85]:
+              - heading "KeyValue Stores" [level=1] [ref=e86]:
+                - img [ref=e87]
+                - text: KeyValue Stores
+              - paragraph [ref=e91]: Manage your key-value buckets and explore their data.
+            - button "Create KV Bucket" [ref=e92]:
+              - img
+              - text: Create KV Bucket
+          - alert [ref=e93]:
+            - img [ref=e94]
+            - generic [ref=e96]: Error
+            - generic [ref=e97]: js.views.list is not a function
+  - region "Notifications alt+T"
+  - generic [active]:
+    - generic [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - navigation [ref=e103]:
+            - button "previous" [disabled] [ref=e104]:
+              - img "previous" [ref=e105]
+            - generic [ref=e107]:
+              - generic [ref=e108]: 1/
+              - text: "1"
+            - button "next" [disabled] [ref=e109]:
+              - img "next" [ref=e110]
+          - img
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - img [ref=e114]
+            - generic "Latest available version is detected (16.1.6)." [ref=e116]: Next.js 16.1.6
+            - generic [ref=e117]: Turbopack
+          - img
+      - dialog "Build Error" [ref=e119]:
+        - generic [ref=e122]:
+          - generic [ref=e123]:
+            - generic [ref=e124]:
+              - generic [ref=e126]: Build Error
+              - generic [ref=e127]:
+                - button "Copy Error Info" [ref=e128] [cursor=pointer]:
+                  - img [ref=e129]
+                - link "Go to related documentation" [ref=e131] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/messages/module-not-found
+                  - img [ref=e132]
+                - button "Attach Node.js inspector" [ref=e134] [cursor=pointer]:
+                  - img [ref=e135]
+            - generic [ref=e144]: "Module not found: Can't resolve 'dns'"
+          - generic [ref=e146]:
+            - generic [ref=e148]:
+              - img [ref=e150]
+              - generic [ref=e152]: ./node_modules/nats/lib/src/node_transport.js (47:13)
+              - button "Open in editor" [ref=e153] [cursor=pointer]:
+                - img [ref=e155]
+            - generic [ref=e158]:
+              - generic [ref=e159]: Module not found
+              - generic [ref=e160]: ": Can't resolve"
+              - text: "'dns'"
+              - generic [ref=e161]: 45 |
+              - text: const
+              - generic [ref=e162]: "{ resolve }"
+              - text: =
+              - generic [ref=e163]: require(
+              - text: "\"path\");"
+              - generic [ref=e164]: 46 |
+              - text: const
+              - generic [ref=e165]: "{ readFile"
+              - text: ","
+              - generic [ref=e166]: "existsSync }"
+              - text: =
+              - generic [ref=e167]: require(
+              - text: "\"fs\"); >"
+              - generic [ref=e168]: 47 |
+              - text: const
+              - generic [ref=e169]: dns
+              - text: =
+              - generic [ref=e170]: require(
+              - text: "\"dns\");"
+              - generic [ref=e171]: "|"
+              - text: ^^^^^^^^^^^^^^
+              - generic [ref=e172]: 48 |
+              - text: const VERSION = "2.29.3";
+              - generic [ref=e173]: 49 |
+              - text: const LANG = "nats.js";
+              - generic [ref=e174]: 50 |
+              - text: class NodeTransport
+              - generic [ref=e175]: "{"
+              - generic [ref=e176]:
+                - text: "Import traces: Server Component: ./node_modules/nats/lib/src/node_transport.js ./node_modules/nats/lib/src/connect.js ./node_modules/nats/lib/src/mod.js ./node_modules/nats/index.js ./src/lib/nats/NatsManager.ts ./src/app/actions/stream-actions.ts Client Component Browser: ./node_modules/nats/lib/src/node_transport.js [Client Component Browser] ./node_modules/nats/lib/src/connect.js [Client Component Browser] ./node_modules/nats/lib/src/mod.js [Client Component Browser] ./node_modules/nats/index.js [Client Component Browser] ./src/components/streams/create-stream-dialog.tsx [Client Component Browser] ./src/app/(dashboard)/streams/page.tsx [Client Component Browser] ./src/app/(dashboard)/streams/page.tsx [Server Component] Client Component SSR: ./node_modules/nats/lib/src/node_transport.js [Client Component SSR] ./node_modules/nats/lib/src/connect.js [Client Component SSR] ./node_modules/nats/lib/src/mod.js [Client Component SSR] ./node_modules/nats/index.js [Client Component SSR] ./src/components/streams/create-stream-dialog.tsx [Client Component SSR] ./src/app/(dashboard)/streams/page.tsx [Client Component SSR] ./src/app/(dashboard)/streams/page.tsx [Server Component]"
+                - link "https://nextjs.org/docs/messages/module-not-found" [ref=e177] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/messages/module-not-found
+        - generic [ref=e178]: "1"
+        - generic [ref=e179]: "2"
+    - generic [ref=e184] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e185]:
+        - img [ref=e186]
+      - button "Open issues overlay" [ref=e190]:
+        - generic [ref=e191]:
+          - generic [ref=e192]: "0"
+          - generic [ref=e193]: "1"
+        - generic [ref=e194]: Issue
+  - alert [ref=e195]
+```
