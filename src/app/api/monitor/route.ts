@@ -42,12 +42,20 @@ export async function GET(req: NextRequest) {
 
                 (async () => {
                     for await (const msg of sub) {
+                        let headersDict: Record<string, string> | undefined;
+                        if (msg.headers) {
+                            headersDict = {};
+                            for (const [key, value] of msg.headers) {
+                                headersDict[key] = value[0] || '';
+                            }
+                        }
+
                         const payload = {
                             timestamp: Date.now(),
                             subject: msg.subject,
                             data: msg.string(),
                             size: msg.data.length,
-                            headers: msg.headers ? Object.fromEntries(msg.headers.entries()) : undefined,
+                            headers: headersDict,
                         };
 
                         controller.enqueue(encoder.encode(`event: message\ndata: ${JSON.stringify(payload)}\n\n`));

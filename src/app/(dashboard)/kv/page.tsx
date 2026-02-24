@@ -33,7 +33,7 @@ export default function KVPage() {
         const result = await listKVBuckets(activeConnection);
 
         if (result.success) {
-            setBuckets(result.buckets || []);
+            setBuckets(result.data.buckets || []);
         } else {
             setError(result.error || "Failed to fetch buckets");
             toast.error("Failed to load KV buckets", {

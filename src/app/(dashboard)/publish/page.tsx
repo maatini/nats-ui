@@ -5,7 +5,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
-import { Send, Plus, Trash2, zap, Loader2, Info, MessageSquareQuote } from "lucide-react";
+import { Send, Plus, Trash2, Zap, Loader2, Info, MessageSquareQuote } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -43,7 +43,7 @@ export default function PublishPage() {
     const activeConnection = connections.find((c) => c.id === activeConnectionId);
 
     const form = useForm<PublishFormValues>({
-        resolver: zodResolver(publishSchema),
+        resolver: zodResolver(publishSchema) as any,
         defaultValues: {
             subject: "",
             payload: '{\n  "msg": "hello nats"\n}',
@@ -75,7 +75,7 @@ export default function PublishPage() {
             const result = await requestMessage(activeConnection, values.subject, values.payload);
             setIsSubmitting(false);
             if (result.success) {
-                setReply(result.reply);
+                setReply(result.data.reply);
                 toast.success("Request successful");
             } else {
                 toast.error("Request failed", { description: result.error });

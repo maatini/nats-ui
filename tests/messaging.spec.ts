@@ -20,9 +20,9 @@ test.describe('Messaging & Monitoring', () => {
     });
 
     test('should navigate to publish page', async ({ page }) => {
-        await page.click('text=Publish');
+        await page.getByRole('link', { name: 'Publish', exact: true }).click();
         await expect(page).toHaveURL(/\/publish/);
-        await expect(page.getByText('Publish Message')).toBeVisible();
+        await expect(page.getByRole('heading', { name: 'Publish Message' })).toBeVisible();
     });
 
     test('should fill publish form', async ({ page }) => {
@@ -36,9 +36,9 @@ test.describe('Messaging & Monitoring', () => {
     });
 
     test('should navigate to monitor page', async ({ page }) => {
-        await page.click('text=Monitor');
+        await page.getByRole('link', { name: 'Monitor', exact: true }).click();
         await expect(page).toHaveURL(/\/monitor/);
-        await expect(page.getByText('Live Subject Monitor')).toBeVisible();
+        await expect(page.getByRole('heading', { name: 'Live Subject Monitor' })).toBeVisible();
     });
 
     test('should toggle monitor subscription', async ({ page }) => {

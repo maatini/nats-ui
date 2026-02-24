@@ -1,6 +1,6 @@
 "use client";
 
-import { ConsumerInfo } from "nats";
+import type { ConsumerInfo } from "nats";
 import {
     Table,
     TableBody,

@@ -1,6 +1,7 @@
 "use client";
 
 import type { KvStatus } from "nats";
+import { StorageType } from "@/lib/nats/nats-types";
 import {
     Database,
     Trash2,
@@ -85,7 +86,7 @@ export function KVBucketCard({ status, onDelete }: KVBucketCardProps) {
                 <div className="mt-4 flex items-center justify-between text-[10px] text-slate-500">
                     <span>Replicas: {status.replicas}</span>
                     <Badge variant="outline" className="text-[10px] border-slate-800 bg-slate-950 px-1 py-0 h-4">
-                        {(status.storage as any) === 0 ? "File" : "Memory"}
+                        {(status.storage as any) === StorageType.File ? "File" : "Memory"}
                     </Badge>
                 </div>
             </CardContent>

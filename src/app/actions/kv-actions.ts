@@ -2,17 +2,13 @@
 
 import { natsManager } from "@/lib/nats/NatsManager";
 import { NatsConnectionConfig } from "@/store/useNatsStore";
-import { KVConfig, KvStatus } from "nats";
+import { KvOptions, KvStatus } from "nats";
+import { withJetStream, ActionResponse } from "./action-helpers";
 
-export async function listKVBuckets(config: NatsConnectionConfig) {
-    try {
-        const nc = await natsManager.getConnection(config);
-        const js = nc.jetstream();
-        const buckets = await js.views.list();
-
+export async function listKVBuckets(config: NatsConnectionConfig): Promise<ActionResponse<{ buckets: KvStatus[] }>> {
+    return withJetStream(config, "listKVBuckets", async ({ js, jsm }) => {
         // NATS doesn't provide a simple list of buckets easily via views.list() in all envs
         // Alternative: check streams that start with "KV_"
-        const jsm = await natsManager.getJetStreamManager(config);
         const streams = await jsm.streams.list().next();
         const bucketNames: string[] = [];
         const iter = await jsm.streams.list();
@@ -29,62 +25,45 @@ export async function listKVBuckets(config: NatsConnectionConfig) {
             bucketStatuses.push(status);
         }
 
-        return { success: true, buckets: bucketStatuses };
-    } catch (err: any) {
-        return { success: false, error: err.message || "Failed to list buckets" };
-    }
+        return { buckets: bucketStatuses };
+    });
 }
 
-export async function createKVBucket(config: NatsConnectionConfig, kvConfig: Partial<KVConfig>) {
-    try {
-        const nc = await natsManager.getConnection(config);
-        const js = nc.jetstream();
-        const kv = await js.views.kv(kvConfig.bucket!, kvConfig);
+export async function createKVBucket(config: NatsConnectionConfig, kvConfig: Partial<KvOptions & { bucket: string }>): Promise<ActionResponse<{ status: KvStatus }>> {
+    return withJetStream(config, "createKVBucket", async ({ js }) => {
+        const { bucket, ...options } = kvConfig;
+        const kv = await js.views.kv(bucket!, options as Partial<KvOptions>);
         const status = await kv.status();
-        return { success: true, status };
-    } catch (err: any) {
-        return { success: false, error: err.message || "Failed to create bucket" };
-    }
+        return { status };
+    });
 }
 
-export async function deleteKVBucket(config: NatsConnectionConfig, bucket: string) {
-    try {
-        const nc = await natsManager.getConnection(config);
-        const js = nc.jetstream();
+export async function deleteKVBucket(config: NatsConnectionConfig, bucket: string): Promise<ActionResponse<void>> {
+    return withJetStream(config, "deleteKVBucket", async ({ js }) => {
         const kv = await js.views.kv(bucket);
         await kv.destroy();
-        return { success: true };
-    } catch (err: any) {
-        return { success: false, error: err.message || "Failed to delete bucket" };
-    }
+    });
 }
 
-export async function getKVKeys(config: NatsConnectionConfig, bucket: string) {
-    try {
-        const nc = await natsManager.getConnection(config);
-        const js = nc.jetstream();
+export async function getKVKeys(config: NatsConnectionConfig, bucket: string): Promise<ActionResponse<{ keys: string[] }>> {
+    return withJetStream(config, "getKVKeys", async ({ js }) => {
         const kv = await js.views.kv(bucket);
         const keys = await kv.keys();
         const keyList: string[] = [];
         for await (const k of keys) {
             keyList.push(k);
         }
-        return { success: true, keys: keyList };
-    } catch (err: any) {
-        return { success: false, error: err.message || "Failed to list keys" };
-    }
+        return { keys: keyList };
+    });
 }
 
-export async function getKVEntry(config: NatsConnectionConfig, bucket: string, key: string) {
-    try {
-        const nc = await natsManager.getConnection(config);
-        const js = nc.jetstream();
+export async function getKVEntry(config: NatsConnectionConfig, bucket: string, key: string): Promise<ActionResponse<{ entry: any }>> {
+    return withJetStream(config, "getKVEntry", async ({ js }) => {
         const kv = await js.views.kv(bucket);
         const entry = await kv.get(key);
-        if (!entry) return { success: false, error: "Entry not found" };
+        if (!entry) throw new Error("Entry not found");
 
         return {
-            success: true,
             entry: {
                 key: entry.key,
                 value: entry.string(),
@@ -94,19 +73,13 @@ export async function getKVEntry(config: NatsConnectionConfig, bucket: string, k
                 operation: entry.operation
             }
         };
-    } catch (err: any) {
-        return { success: false, error: err.message || "Failed to fetch entry" };
-    }
+    });
 }
 
-export async function putKVEntry(config: NatsConnectionConfig, bucket: string, key: string, value: string) {
-    try {
-        const nc = await natsManager.getConnection(config);
-        const js = nc.jetstream();
+export async function putKVEntry(config: NatsConnectionConfig, bucket: string, key: string, value: string): Promise<ActionResponse<{ revision: number }>> {
+    return withJetStream(config, "putKVEntry", async ({ js }) => {
         const kv = await js.views.kv(bucket);
         const revision = await kv.put(key, value);
-        return { success: true, revision };
-    } catch (err: any) {
-        return { success: false, error: err.message || "Failed to put entry" };
-    }
+        return { revision };
+    });
 }

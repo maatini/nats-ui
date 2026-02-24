@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useNatsStore } from "@/store/useNatsStore";
 import { listStreams, deleteStream } from "@/app/actions/stream-actions";
-import { StreamInfo } from "nats";
+import type { StreamInfo } from "nats";
 import { toast } from "sonner";
 import { StreamTable } from "@/components/streams/stream-table";
 import { CreateStreamDialog } from "@/components/streams/create-stream-dialog";
@@ -30,7 +30,7 @@ export default function StreamsPage() {
         const result = await listStreams(activeConnection);
 
         if (result.success) {
-            setStreams(result.streams || []);
+            setStreams(result.data || []);
         } else {
             setError(result.error || "Failed to fetch streams");
             toast.error("Failed to load streams", {

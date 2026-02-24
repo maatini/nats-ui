@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useNatsStore } from "@/store/useNatsStore";
 import { getStreamInfo, deleteStream } from "@/app/actions/stream-actions";
 import { listConsumers, deleteConsumer } from "@/app/actions/consumer-actions";
-import { StreamInfo, ConsumerInfo } from "nats";
+import type { StreamInfo, ConsumerInfo } from "nats";
 import { toast } from "sonner";
 import {
     Layers,
@@ -45,13 +45,13 @@ export default function StreamDetailPage() {
         ]);
 
         if (infoResult.success) {
-            setStreamInfo(infoResult.info!);
+            setStreamInfo(infoResult.data!);
         } else {
             toast.error("Failed to load stream info");
         }
 
         if (consumersResult.success) {
-            setConsumers(consumersResult.consumers || []);
+            setConsumers(consumersResult.data.consumers || []);
         }
 
         setIsLoading(false);

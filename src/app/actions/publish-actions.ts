@@ -1,17 +1,16 @@
 "use server";
 
-import { natsManager } from "@/lib/nats/NatsManager";
 import { NatsConnectionConfig } from "@/store/useNatsStore";
 import { headers, Msg, JSONCodec } from "nats";
+import { withNatsConnection, ActionResponse } from "./action-helpers";
 
 export async function publishMessage(
     config: NatsConnectionConfig,
     subject: string,
     payload: string,
     msgHeaders?: Record<string, string>
-) {
-    try {
-        const nc = await natsManager.getConnection(config);
+): Promise<ActionResponse<void>> {
+    return withNatsConnection(config, "publishMessage", async (nc) => {
         const jc = JSONCodec();
 
         const opts: any = {};
@@ -31,11 +30,7 @@ export async function publishMessage(
         } catch {
             nc.publish(subject, payload, opts);
         }
-
-        return { success: true };
-    } catch (err: any) {
-        return { success: false, error: err.message || "Failed to publish message" };
-    }
+    });
 }
 
 export async function requestMessage(
@@ -43,9 +38,8 @@ export async function requestMessage(
     subject: string,
     payload: string,
     timeout: number = 5000
-) {
-    try {
-        const nc = await natsManager.getConnection(config);
+): Promise<ActionResponse<{ reply: { subject: string; data: string; headers?: Record<string, string> } }>> {
+    return withNatsConnection(config, "requestMessage", async (nc) => {
         const jc = JSONCodec();
 
         // Attempt to parse JSON if possible, otherwise use as string
@@ -56,15 +50,20 @@ export async function requestMessage(
 
         const msg = await nc.request(subject, typeof data === 'string' ? data : jc.encode(data), { timeout });
 
+        let headersDict: Record<string, string> | undefined;
+        if (msg.headers) {
+            headersDict = {};
+            for (const [key, value] of msg.headers) {
+                headersDict[key] = value[0] || '';
+            }
+        }
+
         return {
-            success: true,
             reply: {
                 subject: msg.subject,
                 data: msg.string(),
-                headers: msg.headers ? Object.fromEntries(msg.headers.entries()) : undefined
+                headers: headersDict
             }
         };
-    } catch (err: any) {
-        return { success: false, error: err.message || "Request timed out or failed" };
-    }
+    });
 }

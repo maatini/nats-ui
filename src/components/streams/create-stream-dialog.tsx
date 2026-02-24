@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { Plus, Layers, Loader2, Info } from "lucide-react";
-import { RetentionPolicy, StorageType, DiscardPolicy } from "nats";
+import { RetentionPolicy, StorageType, DiscardPolicy } from "@/lib/nats/nats-types";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -63,7 +63,7 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
     const activeConnection = connections.find((c) => c.id === activeConnectionId);
 
     const form = useForm<StreamFormValues>({
-        resolver: zodResolver(streamSchema),
+        resolver: zodResolver(streamSchema) as any,
         defaultValues: {
             name: "",
             subjects: "",
@@ -87,14 +87,14 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
         const result = await createStream(activeConnection, {
             name: values.name,
             subjects: values.subjects.split(",").map(s => s.trim()),
-            retention: values.retention,
-            storage: values.storage,
+            retention: values.retention as any,
+            storage: values.storage as any,
             max_msgs: values.max_msgs,
             max_bytes: values.max_bytes,
             max_age: values.max_age,
-            discard: values.discard,
+            discard: values.discard as any,
             num_replicas: values.replicas,
-        });
+        } as any);
 
         setIsSubmitting(false);
 

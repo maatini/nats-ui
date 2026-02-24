@@ -22,21 +22,21 @@ test.describe('Connection Management', () => {
 
         // Fill the form
         await page.getByLabel('Connection Name').fill('Local Test');
-        await page.getByLabel('Server Addresses').fill('localhost:4222');
+        await page.getByLabel('Servers').fill('localhost:4222');
 
         // Test the connection
-        const testButton = page.getByRole('button', { name: 'Test Connection' });
+        const testButton = page.getByRole('button', { name: 'Test', exact: true });
         await testButton.click();
 
         // Wait for validation - since we might not have NATS running in the CI env 
         // we handle both success and error as long as the UI reacts
-        await expect(page.getByText(/Connected successfully|Failed to connect/)).toBeVisible();
+        await expect(page.getByText(/Connection successful!|Connection failed/)).toBeVisible({ timeout: 10000 });
 
         // Save the connection
-        await page.getByRole('button', { name: 'Save Connection' }).click();
+        await page.getByRole('button', { name: 'Connect', exact: true }).click();
 
-        // Verify it appears in the sidebar
-        await expect(page.locator('nav')).toContainText('Local Test');
+        // Verify it appears in the sidebar (Topbar in our case)
+        await expect(page.getByRole('button', { name: 'Local Test', exact: false })).toBeVisible();
     });
 
     test('should switch between connections', async ({ page }) => {

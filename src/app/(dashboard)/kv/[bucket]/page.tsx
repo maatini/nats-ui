@@ -52,7 +52,7 @@ export default function KVDetailPage() {
         setIsLoading(true);
         const result = await getKVKeys(activeConnection, bucket as string);
         if (result.success) {
-            setKeys(result.keys || []);
+            setKeys(result.data.keys || []);
         } else {
             toast.error("Failed to load keys");
         }
@@ -68,7 +68,7 @@ export default function KVDetailPage() {
         setIsFetchingEntry(true);
         const result = await getKVEntry(activeConnection, bucket as string, key);
         if (result.success) {
-            setSelectedEntry(result.entry as unknown as KvEntry);
+            setSelectedEntry(result.data.entry as unknown as any);
         } else {
             toast.error("Failed to load entry data");
         }

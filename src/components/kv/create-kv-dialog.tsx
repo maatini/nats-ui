@@ -58,7 +58,7 @@ export function CreateKVDialog({ onCreated }: CreateKVDialogProps) {
     const activeConnection = connections.find((c) => c.id === activeConnectionId);
 
     const form = useForm<KVFormValues>({
-        resolver: zodResolver(kvSchema),
+        resolver: zodResolver(kvSchema) as any,
         defaultValues: {
             bucket: "",
             description: "",
@@ -81,7 +81,7 @@ export function CreateKVDialog({ onCreated }: CreateKVDialogProps) {
             history: values.history,
             max_age: values.max_age,
             num_replicas: values.replicas,
-        });
+        } as any);
 
         setIsSubmitting(false);
 

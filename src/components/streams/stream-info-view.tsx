@@ -1,6 +1,7 @@
 "use client";
 
-import { StreamInfo } from "nats";
+import type { StreamInfo } from "nats";
+import { StorageType } from "@/lib/nats/nats-types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -38,8 +39,8 @@ export function StreamInfoView({ info }: { info: StreamInfo }) {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-1">
-                    {renderValue("Retention", info.config.retention.toUpperCase(), <Shield className="size-3" />)}
-                    {renderValue("Storage", info.config.storage === 0 ? "FILE" : "MEMORY", <HardDrive className="size-3" />)}
+                    {renderValue("Retention", (info.config.retention as any).toString().toUpperCase(), <Shield className="size-3" />)}
+                    {renderValue("Storage", (info.config.storage as any) === StorageType.File ? "FILE" : "MEMORY", <HardDrive className="size-3" />)}
                     {renderValue("Max Messages", info.config.max_msgs, <Activity className="size-3" />)}
                     {renderValue("Max Bytes", info.config.max_bytes === -1 ? -1 : `${(info.config.max_bytes / (1024 * 1024)).toFixed(1)} MB`, <Database className="size-3" />)}
                     {renderValue("Max Age", info.config.max_age === 0 ? 0 : `${(info.config.max_age / 1e9 / 3600).toFixed(1)} hours`, <Clock className="size-3" />)}

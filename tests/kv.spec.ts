@@ -20,9 +20,9 @@ test.describe('KeyValue Stores', () => {
     });
 
     test('should navigate to KV page', async ({ page }) => {
-        await page.click('text=KV Stores');
+        await page.getByRole('link', { name: 'KV Stores', exact: true }).click();
         await expect(page).toHaveURL(/\/kv/);
-        await expect(page.getByText('KeyValue Stores')).toBeVisible();
+        await expect(page.getByRole('heading', { name: 'KeyValue Stores' })).toBeVisible();
     });
 
     test('should open create bucket dialog', async ({ page }) => {

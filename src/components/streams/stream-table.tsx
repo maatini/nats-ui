@@ -10,7 +10,7 @@ import {
     getSortedRowModel,
     SortingState,
 } from "@tanstack/react-table";
-import { StreamInfo } from "nats";
+import type { StreamInfo } from "nats";
 import {
     MoreHorizontal,
     Trash2,
