@@ -59,7 +59,54 @@ test.describe('Functional Stream Creation', () => {
         // Wait for loading to finish if it's showing
         await expect(page.getByText('Loading streams...')).not.toBeVisible({ timeout: 10000 });
 
-        // Use getByText for the stream name in the table
-        await expect(page.getByText(streamName, { exact: true })).toBeVisible({ timeout: 10000 });
+        // Filter the table using the search box (vital if there are many streams paginated)
+        await page.getByPlaceholder('Search streams...').fill(streamName);
+
+        // Use getByText for the stream name in the table and click it to view details
+        const streamRow = page.getByText(streamName, { exact: true });
+        await expect(streamRow).toBeVisible({ timeout: 10000 });
+
+        // Find the row containing the stream name and open the actions menu
+        const row = page.locator('tr', { hasText: streamName });
+        await row.getByRole('button', { name: 'Open menu' }).click();
+
+        // Click View Details in the dropdown
+        await page.getByRole('menuitem', { name: 'View Details' }).click();
+
+        // Wait for details page to load
+        await expect(page).toHaveURL(new RegExp(`\/streams\/${streamName}`));
+        await expect(page.getByRole('heading', { name: streamName, exact: true })).toBeVisible({ timeout: 10000 });
+
+        // Verify tabs are present and switch between them
+        const infoTab = page.getByRole('tab', { name: 'Info', exact: true });
+        const consumersTab = page.getByRole('tab', { name: /Consumers.*/, exact: false });
+        const messagesTab = page.getByRole('tab', { name: /Messages.*/, exact: false });
+
+        await expect(infoTab).toBeVisible();
+        await expect(consumersTab).toBeVisible();
+        await expect(messagesTab).toBeVisible();
+
+        await consumersTab.click();
+        await expect(page.getByRole('heading', { name: 'Processing Consumers', exact: true })).toBeVisible();
+
+        await messagesTab.click();
+        await expect(page.getByRole('heading', { name: 'Message Browser', exact: true })).toBeVisible();
+
+        await infoTab.click();
+
+        // Delete the stream from the details page
+        await page.getByRole('button', { name: 'Delete', exact: true }).click();
+
+        // Handle confirmation dialog
+        page.once('dialog', dialog => dialog.accept());
+        await page.getByRole('button', { name: 'Delete', exact: true }).click();
+
+        // Wait for successful deletion toast and redirect back to streams list
+        const deleteSuccessToast = page.getByText('Stream deleted');
+        await expect(deleteSuccessToast).toBeVisible({ timeout: 10000 });
+        await expect(page).toHaveURL(/\/streams/);
+
+        // Ensure stream is not in the list anymore
+        await expect(page.getByText(streamName, { exact: true })).not.toBeVisible();
     });
 });

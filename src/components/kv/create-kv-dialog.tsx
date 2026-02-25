@@ -34,9 +34,9 @@ import { createKVBucket } from "@/app/actions/kv-actions";
 const kvSchema = z.object({
     bucket: z.string().min(1, "Bucket name is required").regex(/^[a-zA-Z0-9_-]+$/, "Only alphanumeric, dash and underscore allowed"),
     description: z.string().optional(),
-    history: z.number().min(1).max(64).default(1),
-    max_age: z.number().default(0),
-    replicas: z.number().min(1).max(5).default(1),
+    history: z.coerce.number().min(1).max(64).default(1),
+    max_age: z.coerce.number().default(0),
+    replicas: z.coerce.number().min(1).max(5).default(1),
 });
 
 type KVFormValues = {
@@ -75,13 +75,16 @@ export function CreateKVDialog({ onCreated }: CreateKVDialogProps) {
         }
 
         setIsSubmitting(true);
-        const result = await createKVBucket(activeConnection, {
+        const cleanOptions: any = {
             bucket: values.bucket,
-            description: values.description,
             history: values.history,
-            max_age: values.max_age,
-            num_replicas: values.replicas,
-        } as any);
+            replicas: values.replicas,
+            timeout: 5000,
+        };
+        if (values.description?.trim()) cleanOptions.description = values.description.trim();
+        if (values.max_age > 0) cleanOptions.ttl = values.max_age;
+
+        const result = await createKVBucket(activeConnection, cleanOptions);
 
         setIsSubmitting(false);
 

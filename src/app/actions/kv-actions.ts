@@ -18,14 +18,22 @@ export async function listKVBuckets(config: NatsConnectionConfig): Promise<Actio
             }
         }
 
-        const bucketStatuses: KvStatus[] = [];
+        const bucketStatuses: any[] = [];
         for (const name of bucketNames) {
             const kv = await js.views.kv(name);
             const status = await kv.status();
-            bucketStatuses.push(status);
+            bucketStatuses.push({
+                bucket: status.bucket,
+                values: status.values,
+                history: status.history,
+                ttl: status.ttl,
+                max_bytes: status.max_bytes,
+                replicas: status.replicas,
+                size: status.size,
+            });
         }
 
-        return { buckets: bucketStatuses };
+        return { buckets: bucketStatuses as KvStatus[] };
     });
 }
 
@@ -34,7 +42,17 @@ export async function createKVBucket(config: NatsConnectionConfig, kvConfig: Par
         const { bucket, ...options } = kvConfig;
         const kv = await js.views.kv(bucket!, options as Partial<KvOptions>);
         const status = await kv.status();
-        return { status };
+        return {
+            status: {
+                bucket: status.bucket,
+                values: status.values,
+                history: status.history,
+                ttl: status.ttl,
+                max_bytes: status.max_bytes,
+                replicas: status.replicas,
+                size: status.size,
+            } as KvStatus
+        };
     });
 }
 
