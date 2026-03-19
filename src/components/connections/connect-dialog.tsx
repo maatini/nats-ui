@@ -109,7 +109,7 @@ export function ConnectDialog({ trigger, editingConfig, onOpenChange }: ConnectD
 
     function onSubmit(values: FormValues) {
         const config: NatsConnectionConfig = {
-            id: editingConfig?.id || crypto.randomUUID(),
+            id: editingConfig?.id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`),
             name: values.name,
             servers: values.servers.split(",").map(s => s.trim()),
             authType: values.authType,
