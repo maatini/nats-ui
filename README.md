@@ -1,12 +1,12 @@
 # Cobra NATS
 
 
-> **v0.1.0** — A modern, professional management UI for NATS and JetStream.
+> **v0.2.0** — A modern, professional management UI for NATS and JetStream.
 
 ![Cobra NATS](./cobra_nats.png)
 
 
-Cobra NATS is a web-based administration dashboard for [NATS](https://nats.io), built with Next.js. It lets you manage JetStream streams, Key-Value stores, publish messages, and monitor live traffic — all from a sleek, dark-mode UI without requiring any CLI tooling.
+Cobra NATS is a web-based administration dashboard for [NATS](https://nats.io), built with Next.js. It lets you manage JetStream streams, Key-Value stores, Object Stores, publish messages, and monitor live traffic — all from a sleek, dark-mode UI without requiring any CLI tooling.
 
 ---
 
@@ -31,6 +31,15 @@ Cobra NATS is a web-based administration dashboard for [NATS](https://nats.io), 
 - **Browse** all keys inside a bucket
 - **Get** and **Put** key-value entries
 - **Delete** buckets
+
+### 📦 Object Stores
+- **List** all Object Store buckets with size, object count, and replica info
+- **Create** new Object Store buckets with configurable replicas and description
+- **Browse** stored objects with metadata (name, size, chunks, digest)
+- **Upload** files into an Object Store bucket
+- **Download** objects directly from the browser
+- **Delete** individual objects or entire buckets
+- **Seal** buckets to make them read-only
 
 ### 📤 Publish
 - Publish messages to any NATS subject
@@ -144,17 +153,29 @@ cobra-nats/
 │   │   │   ├── page.tsx       # Dashboard
 │   │   │   ├── streams/       # JetStream Stream management
 │   │   │   ├── kv/            # Key-Value Store management
+│   │   │   ├── os/            # Object Store management
 │   │   │   ├── publish/       # Message publishing
-│   │   │   └── monitor/       # Live traffic monitor
+│   │   │   ├── monitor/       # Live traffic monitor
+│   │   │   └── settings/      # Application settings
 │   │   ├── actions/           # Next.js Server Actions (NATS client)
 │   │   │   ├── action-helpers.ts     # withNatsConnection / withJetStream wrappers
+│   │   │   ├── nats-actions.ts       # Core NATS connection actions
 │   │   │   ├── stream-actions.ts
-│   │   │   ├── kv-actions.ts
+│   │   │   ├── stream-consumer-stats.ts
 │   │   │   ├── consumer-actions.ts
+│   │   │   ├── kv-actions.ts
+│   │   │   ├── os-actions.ts         # Object Store CRUD, upload, download
 │   │   │   └── publish-actions.ts
 │   │   └── api/
 │   │       └── monitor/route.ts      # SSE endpoint for live monitoring
 │   ├── components/            # UI components (shadcn/ui based)
+│   │   ├── connections/       # Connection management dialogs
+│   │   ├── kv/                # KV bucket & entry components
+│   │   ├── os/                # Object Store dialogs & tables
+│   │   ├── streams/           # Stream & consumer components
+│   │   ├── layout/            # Sidebar, header, nav
+│   │   ├── providers/         # Theme & query providers
+│   │   └── ui/                # Base shadcn/ui primitives
 │   ├── lib/nats/              # NATS connection management & types
 │   └── store/useNatsStore.ts  # Zustand global state
 ├── tests/                     # Playwright E2E tests
@@ -218,10 +239,12 @@ npx playwright test tests/functional-streams.spec.ts tests/functional-messaging.
 | `connections.spec.ts` | Connection creation and management UI |
 | `streams.spec.ts` | Stream list and table UI |
 | `kv.spec.ts` | KV store UI |
+| `os.spec.ts` | Object Store page UI |
 | `messaging.spec.ts` | Publish page UI |
 | `settings.spec.ts` | Application settings and theme toggle UI |
 | `functional-streams.spec.ts` | **Real** stream creation via NATS |
 | `functional-kv.spec.ts` | **Real** KV bucket operations via NATS |
+| `functional-os.spec.ts` | **Real** Object Store operations via NATS |
 | `functional-messaging.spec.ts` | **Real** publish and request-reply via NATS |
 
 ---
@@ -248,9 +271,9 @@ npx playwright test tests/functional-streams.spec.ts tests/functional-messaging.
 
 ## 🗺️ Roadmap
 
+- [x] Object Store support (browse, upload, download, delete, seal)
 - [ ] Live dashboard with real-time stream stats
 - [ ] NATS Cluster topology view
-- [ ] Object Store support
 - [ ] Multi-tab message comparison
 
 ---
