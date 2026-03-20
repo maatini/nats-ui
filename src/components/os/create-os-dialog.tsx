@@ -33,7 +33,6 @@ const osSchema = z.object({
     bucket: z.string().min(1, "Bucket name is required").regex(/^[a-zA-Z0-9_-]+$/, "Only alphanumeric, dash and underscore allowed"),
     description: z.string().optional(),
     replicas: z.number().min(1).max(5),
-    maxChunkSize: z.number().min(0),
 });
 
 type OSFormValues = z.infer<typeof osSchema>;
@@ -53,7 +52,6 @@ export function CreateOSDialog({ onCreated }: CreateOSDialogProps) {
             bucket: "",
             description: "",
             replicas: 1,
-            maxChunkSize: 0,
         },
     });
 
@@ -65,12 +63,11 @@ export function CreateOSDialog({ onCreated }: CreateOSDialogProps) {
 
         setIsSubmitting(true);
 
+        // Build a properly typed ObjectStoreOptions — only valid NATS fields
         const opts: Record<string, unknown> = {
-            replicas: values.replicas,
-            timeout: 5000,
+            replicas: Number(values.replicas),
         };
         if (values.description?.trim()) opts.description = values.description.trim();
-        if (values.maxChunkSize > 0) opts.max_chunk_size = values.maxChunkSize;
 
         const result = await createOSBucket(activeConnection, values.bucket, opts);
 
@@ -135,34 +132,27 @@ export function CreateOSDialog({ onCreated }: CreateOSDialogProps) {
                                 </FormItem>
                             )}
                         />
-                        <div className="grid grid-cols-2 gap-4">
-                            <FormField
-                                control={form.control}
-                                name="replicas"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Replicas</FormLabel>
-                                        <FormControl>
-                                            <Input type="number" {...field} className="bg-slate-900 border-slate-800" />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="maxChunkSize"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Max Chunk Size</FormLabel>
-                                        <FormControl>
-                                            <Input type="number" placeholder="0 = default" {...field} className="bg-slate-900 border-slate-800" />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="replicas"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Replicas</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            value={field.value}
+                                            onChange={(e) => field.onChange(e.target.valueAsNumber || 1)}
+                                            onBlur={field.onBlur}
+                                            name={field.name}
+                                            ref={field.ref}
+                                            className="bg-slate-900 border-slate-800"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
                         <div className="rounded-md bg-cyan-500/10 p-3 border border-cyan-500/20 flex gap-3">
                             <Info className="size-5 text-cyan-400 shrink-0" />

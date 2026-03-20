@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('KeyValue Stores', () => {
+test.describe('Object Stores', () => {
     test.beforeEach(async ({ page }) => {
         // Setup a connection in localStorage
         await page.goto('/');
@@ -19,23 +19,23 @@ test.describe('KeyValue Stores', () => {
         await page.reload();
     });
 
-    test('should navigate to KV page', async ({ page }) => {
+    test('should navigate to OS page', async ({ page }) => {
         // Wait for sidebar link to be rendered after hydration
-        const kvLink = page.getByRole('link', { name: 'KV Stores', exact: true });
-        await expect(kvLink).toBeVisible({ timeout: 10000 });
-        await kvLink.click();
-        await expect(page).toHaveURL(/\/kv/, { timeout: 10000 });
-        await expect(page.getByRole('heading', { name: 'KeyValue Stores' })).toBeVisible();
+        const osLink = page.getByRole('link', { name: 'Object Stores', exact: true });
+        await expect(osLink).toBeVisible({ timeout: 10000 });
+        await osLink.click();
+        await expect(page).toHaveURL(/\/os/, { timeout: 10000 });
+        await expect(page.getByRole('heading', { name: 'Object Stores' })).toBeVisible();
     });
 
     test('should open create bucket dialog', async ({ page }) => {
-        await page.goto('/kv');
-        await page.getByRole('button', { name: 'Create KV Bucket' }).click();
-        await expect(page.getByText('Create New KV Bucket')).toBeVisible();
+        await page.goto('/os');
+        await page.getByRole('button', { name: 'Create Object Store' }).click();
+        await expect(page.getByText('Create New Object Store')).toBeVisible();
     });
 
     test('should show empty state if no buckets', async ({ page }) => {
-        await page.goto('/kv');
+        await page.goto('/os');
         // Assuming we have no buckets initially
         await expect(page.getByText('No buckets found')).toBeVisible();
     });

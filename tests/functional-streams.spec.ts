@@ -70,8 +70,10 @@ test.describe('Functional Stream Creation', () => {
         const row = page.locator('tr', { hasText: streamName });
         await row.getByRole('button', { name: 'Open menu' }).click();
 
-        // Click View Details in the dropdown
-        await page.getByRole('menuitem', { name: 'View Details' }).click();
+        // Wait for dropdown animation to complete before clicking menu item
+        const viewDetailsItem = page.getByRole('menuitem', { name: 'View Details' });
+        await expect(viewDetailsItem).toBeVisible({ timeout: 5000 });
+        await viewDetailsItem.click();
 
         // Wait for details page to load
         await expect(page).toHaveURL(new RegExp(`\/streams\/${streamName}`));

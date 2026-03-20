@@ -65,7 +65,23 @@ export async function createOSBucket(
     opts?: Partial<ObjectStoreOptions>
 ): Promise<ActionResponse<OsBucketInfo>> {
     return withJetStream(config, "createOSBucket", async ({ js }) => {
-        const os = await js.views.os(name, opts);
+        // Workaround for nats.js client bug: ObjectStoreImpl.init() uses
+        // Object.assign({}, opts) which copies ALL enumerable properties into the
+        // raw stream config. The NATS server rejects the unknown "replicas" field
+        // (it expects "num_replicas"). The client maps opts.replicas -> num_replicas
+        // but doesn't delete the original. Making replicas non-enumerable prevents
+        // Object.assign from copying it while opts.replicas still returns the value.
+        const cleanOpts: Record<string, unknown> = { ...opts };
+        if ("replicas" in cleanOpts) {
+            const replicaCount = cleanOpts.replicas;
+            delete cleanOpts.replicas;
+            Object.defineProperty(cleanOpts, "replicas", {
+                value: replicaCount,
+                enumerable: false,
+                configurable: true,
+            });
+        }
+        const os = await js.views.os(name, cleanOpts as Partial<ObjectStoreOptions>);
         const status = await os.status();
         const objects = await os.list();
         return {
