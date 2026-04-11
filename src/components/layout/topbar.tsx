@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { ConnectDialog } from "@/features/connections/components/connect-dialog";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { AutoBreadcrumbs } from "@/components/layout/auto-breadcrumbs";
 
 export function Topbar() {
     const { connections, activeConnectionId, setActiveConnection } = useNatsStore();
@@ -24,7 +25,10 @@ export function Topbar() {
     return (
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border bg-background/80 px-4 backdrop-blur-md lg:px-6">
             <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-indigo-400" />
-            <div className="flex-1">
+            <div className="hidden md:block">
+                <AutoBreadcrumbs />
+            </div>
+            <div className="flex-1 flex justify-end md:justify-start">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button

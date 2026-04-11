@@ -106,6 +106,7 @@ test.describe('Functional Stream Creation', () => {
         await page.getByRole('button', { name: 'Delete', exact: true }).click();
         const confirmDialog = page.getByRole('dialog');
         await expect(confirmDialog.getByText(/Delete stream/)).toBeVisible();
+        await confirmDialog.getByLabel('Confirm name').fill(streamName);
         await confirmDialog.getByRole('button', { name: 'Delete Stream' }).click();
 
         // Wait for successful deletion toast and redirect back to streams list

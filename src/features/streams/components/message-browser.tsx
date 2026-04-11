@@ -52,6 +52,8 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
     const [isLoading, setIsLoading] = React.useState(false);
     const [hasMore, setHasMore] = React.useState(false);
     const [expanded, setExpanded] = React.useState<Set<number>>(new Set());
+    const [focusedSeq, setFocusedSeq] = React.useState<number | null>(null);
+    const listRef = React.useRef<HTMLDivElement | null>(null);
 
     const fetchBatch = React.useCallback(
         async (fromSeq: number, append: boolean) => {
@@ -94,6 +96,52 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
             return next;
         });
     };
+
+    React.useEffect(() => {
+        if (messages.length === 0) {
+            setFocusedSeq(null);
+        } else if (focusedSeq == null || !messages.some(m => m.seq === focusedSeq)) {
+            setFocusedSeq(messages[0].seq);
+        }
+    }, [messages, focusedSeq]);
+
+    const handleListKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (messages.length === 0) return;
+        const currentIndex = focusedSeq != null
+            ? messages.findIndex(m => m.seq === focusedSeq)
+            : -1;
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            const next = messages[Math.min(messages.length - 1, currentIndex + 1)];
+            if (next) setFocusedSeq(next.seq);
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            const prev = messages[Math.max(0, currentIndex - 1)];
+            if (prev) setFocusedSeq(prev.seq);
+        } else if (e.key === "Enter" || e.key === " ") {
+            if (focusedSeq != null) {
+                e.preventDefault();
+                toggleExpanded(focusedSeq);
+            }
+        } else if (e.key === "Escape") {
+            if (expanded.size > 0) {
+                e.preventDefault();
+                setExpanded(new Set());
+            }
+        } else if (e.key === "Home") {
+            e.preventDefault();
+            setFocusedSeq(messages[0].seq);
+        } else if (e.key === "End") {
+            e.preventDefault();
+            setFocusedSeq(messages[messages.length - 1].seq);
+        }
+    };
+
+    React.useEffect(() => {
+        if (focusedSeq == null || !listRef.current) return;
+        const el = listRef.current.querySelector<HTMLElement>(`[data-seq="${focusedSeq}"]`);
+        el?.scrollIntoView({ block: "nearest" });
+    }, [focusedSeq]);
 
     return (
         <Card className="bg-card border-border">
@@ -154,6 +202,12 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
                     </Button>
                 </div>
 
+                {messages.length > 0 && (
+                    <p className="text-[10px] text-muted-foreground/70">
+                        Tip: click the list, then use <kbd className="px-1 rounded bg-muted text-foreground/80">↑</kbd>/<kbd className="px-1 rounded bg-muted text-foreground/80">↓</kbd> to navigate, <kbd className="px-1 rounded bg-muted text-foreground/80">Enter</kbd> to expand, <kbd className="px-1 rounded bg-muted text-foreground/80">Esc</kbd> to collapse all.
+                    </p>
+                )}
+
                 {/* Empty state */}
                 {messages.length === 0 && !isLoading && (
                     <div className="flex flex-col items-center justify-center py-16 text-center border border-dashed border-border rounded-lg">
@@ -168,18 +222,31 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
 
                 {/* Message list */}
                 {messages.length > 0 && (
-                    <ScrollArea className="h-[520px] rounded-md border border-border">
-                        <div className="divide-y divide-border">
+                    <ScrollArea
+                        className="h-[520px] rounded-md border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                        tabIndex={0}
+                        onKeyDown={handleListKeyDown}
+                        aria-label="Messages — use arrow keys to navigate, Enter to expand, Escape to collapse all"
+                    >
+                        <div className="divide-y divide-border" ref={listRef}>
                             {messages.map(msg => {
                                 const isOpen = expanded.has(msg.seq);
                                 const pretty = tryPrettyJson(msg.data);
                                 const isJson = pretty !== null;
                                 const headerEntries = Object.entries(msg.headers);
+                                const isFocused = focusedSeq === msg.seq;
                                 return (
-                                    <div key={msg.seq} className="bg-card">
+                                    <div
+                                        key={msg.seq}
+                                        data-seq={msg.seq}
+                                        className={isFocused ? "bg-amber-500/5 ring-1 ring-inset ring-amber-500/30" : "bg-card"}
+                                    >
                                         <button
                                             type="button"
-                                            onClick={() => toggleExpanded(msg.seq)}
+                                            onClick={() => {
+                                                setFocusedSeq(msg.seq);
+                                                toggleExpanded(msg.seq);
+                                            }}
                                             className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-muted/50 transition-colors text-left"
                                         >
                                             {isOpen ? (

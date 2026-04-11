@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { ObjectList } from "@/features/os/components/object-list";
 import { UploadObjectDialog } from "@/features/os/components/upload-object-dialog";
 import { useConfirm } from "@/components/providers/confirm-provider";
+import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
 import Link from "next/link";
 
 export default function OSDetailPage() {
@@ -110,6 +111,7 @@ export default function OSDetailPage() {
             title: `Delete bucket "${bucket}"?`,
             description: "All objects and their chunks will be permanently removed.",
             confirmText: "Delete Bucket",
+            typedName: bucket as string,
         });
         if (!ok) return;
 
@@ -188,11 +190,15 @@ export default function OSDetailPage() {
             </div>
 
             {/* Object table */}
-            <ObjectList
-                objects={objects}
-                onDownload={handleDownload}
-                onDelete={handleDeleteObject}
-            />
+            {isLoading && objects.length === 0 ? (
+                <DataTableSkeleton rows={6} columns={5} />
+            ) : (
+                <ObjectList
+                    objects={objects}
+                    onDownload={handleDownload}
+                    onDelete={handleDeleteObject}
+                />
+            )}
         </div>
     );
 }

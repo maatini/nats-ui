@@ -10,6 +10,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { AlertTriangle } from "lucide-react";
 
 /**
@@ -22,6 +23,12 @@ export interface ConfirmOptions {
     cancelText?: string;
     /** Style of the confirm button. `destructive` is the default and uses rose. */
     variant?: "destructive" | "default";
+    /**
+     * If provided, the user must type this exact string into an input before
+     * the confirm button becomes enabled. Used as a typo guard for destructive
+     * actions like deleting a stream or bucket.
+     */
+    typedName?: string;
 }
 
 type ConfirmFn = (opts: ConfirmOptions) => Promise<boolean>;
@@ -45,9 +52,11 @@ interface PendingRequest {
 
 export function ConfirmProvider({ children }: { children: React.ReactNode }) {
     const [request, setRequest] = React.useState<PendingRequest | null>(null);
+    const [typed, setTyped] = React.useState("");
 
     const confirm = React.useCallback<ConfirmFn>(opts => {
         return new Promise<boolean>(resolve => {
+            setTyped("");
             setRequest({ opts, resolve });
         });
     }, []);
@@ -56,11 +65,14 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
         if (request) {
             request.resolve(result);
             setRequest(null);
+            setTyped("");
         }
     };
 
     const opts = request?.opts;
     const variant = opts?.variant ?? "destructive";
+    const needsType = !!opts?.typedName;
+    const typeMatches = needsType ? typed === opts?.typedName : true;
 
     return (
         <ConfirmContext.Provider value={confirm}>
@@ -89,6 +101,28 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
                             </DialogDescription>
                         )}
                     </DialogHeader>
+                    {needsType && opts?.typedName && (
+                        <div className="flex flex-col gap-2 pt-1">
+                            <label className="text-xs text-muted-foreground">
+                                Type{" "}
+                                <span className="font-mono text-foreground">
+                                    {opts.typedName}
+                                </span>{" "}
+                                to confirm:
+                            </label>
+                            <Input
+                                autoFocus
+                                value={typed}
+                                onChange={e => setTyped(e.target.value)}
+                                onKeyDown={e => {
+                                    if (e.key === "Enter" && typeMatches) close(true);
+                                }}
+                                className="bg-card border-border font-mono"
+                                placeholder={opts.typedName}
+                                aria-label="Confirm name"
+                            />
+                        </div>
+                    )}
                     <DialogFooter className="pt-2">
                         <Button
                             type="button"
@@ -100,11 +134,12 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
                         </Button>
                         <Button
                             type="button"
+                            disabled={!typeMatches}
                             onClick={() => close(true)}
                             className={
                                 variant === "destructive"
-                                    ? "bg-rose-600 hover:bg-rose-700 text-white min-w-[110px]"
-                                    : "bg-indigo-600 hover:bg-indigo-700 text-white min-w-[110px]"
+                                    ? "bg-rose-600 hover:bg-rose-700 text-white min-w-[110px] disabled:opacity-50"
+                                    : "bg-indigo-600 hover:bg-indigo-700 text-white min-w-[110px] disabled:opacity-50"
                             }
                         >
                             {opts?.confirmText ?? "Confirm"}

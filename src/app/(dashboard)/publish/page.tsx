@@ -5,7 +5,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
-import { Send, Plus, Trash2, Zap, Loader2, Info, MessageSquareQuote } from "lucide-react";
+import { Send, Plus, Trash2, Loader2, Info } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,11 +18,12 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useActiveConnection } from "@/features/connections/hooks";
 import { publishMessage, requestMessage } from "@/features/publish/actions";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { SubjectCombobox, useSubjectHistory } from "@/features/publish/components/subject-combobox";
+import { ReplyOutput } from "@/features/publish/components/reply-output";
 
 const publishSchema = z.object({
     subject: z.string().min(1, "Subject is required"),
@@ -40,6 +41,7 @@ export default function PublishPage() {
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [reply, setReply] = React.useState<{data: string, headers?: Record<string, string>} | null>(null);
     const activeConnection = useActiveConnection();
+    const { push: pushSubject } = useSubjectHistory();
 
     const form = useForm<PublishFormValues>({
         resolver: zodResolver(publishSchema),
@@ -75,6 +77,7 @@ export default function PublishPage() {
             setIsSubmitting(false);
             if (result.success) {
                 setReply(result.data.reply);
+                pushSubject(values.subject);
                 toast.success("Request successful");
             } else {
                 toast.error("Request failed", { description: result.error });
@@ -83,6 +86,7 @@ export default function PublishPage() {
             const result = await publishMessage(activeConnection, values.subject, values.payload, headerMap);
             setIsSubmitting(false);
             if (result.success) {
+                pushSubject(values.subject);
                 toast.success("Message published");
             } else {
                 toast.error("Publish failed", { description: result.error });
@@ -116,7 +120,7 @@ export default function PublishPage() {
                                     <FormItem>
                                         <FormLabel>Subject</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="orders.new" {...field} className="bg-background border-border font-mono" />
+                                            <SubjectCombobox value={field.value} onChange={field.onChange} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -217,32 +221,7 @@ export default function PublishPage() {
                             </CardContent>
                         </Card>
 
-                        {reply && (
-                            <Card className="bg-card border-emerald-500/30 animate-in zoom-in-95 duration-300">
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="text-sm flex items-center gap-2 text-emerald-400">
-                                        <MessageSquareQuote className="size-4" />
-                                        Reply Received
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <pre className="text-[10px] font-mono p-2 bg-background rounded-md border border-border text-foreground/80 overflow-auto max-h-[150px]">
-                                        {reply.data}
-                                    </pre>
-                                    {reply.headers && Object.keys(reply.headers).length > 0 && (
-                                        <div className="mt-2 space-y-1">
-                                            <span className="text-[10px] text-muted-foreground">Headers:</span>
-                                            {Object.entries(reply.headers || {}).map(([k, v]) => (
-                                                <div key={k} className="text-[9px] text-muted-foreground flex gap-2">
-                                                    <span className="font-bold">{k}:</span>
-                                                    <span>{v}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </CardContent>
-                            </Card>
-                        )}
+                        {reply && <ReplyOutput reply={reply} />}
                     </div>
                 </form>
             </Form>

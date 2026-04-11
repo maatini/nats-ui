@@ -10,6 +10,7 @@ import { StreamTable } from "@/features/streams/components/stream-table";
 import { CreateStreamDialog } from "@/features/streams/components/create-stream-dialog";
 import { Layers, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useConfirm } from "@/components/providers/confirm-provider";
 
 export default function StreamsPage() {
     const [streams, setStreams] = React.useState<StreamInfo[]>([]);
@@ -17,6 +18,7 @@ export default function StreamsPage() {
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState<string | null>(null);
     const activeConnection = useActiveConnection();
+    const confirm = useConfirm();
 
     const fetchStreams = React.useCallback(async () => {
         if (!activeConnection) {
@@ -58,6 +60,14 @@ export default function StreamsPage() {
 
     async function handleDelete(name: string) {
         if (!activeConnection) return;
+
+        const ok = await confirm({
+            title: `Delete stream "${name}"?`,
+            description: "This permanently removes the stream and all its messages. This action cannot be undone.",
+            confirmText: "Delete Stream",
+            typedName: name,
+        });
+        if (!ok) return;
 
         const promise = deleteStream(activeConnection, name);
 

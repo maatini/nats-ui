@@ -117,6 +117,7 @@ test.describe('Functional KV Stores', () => {
         await page.getByRole('button', { name: 'Delete Bucket' }).click();
         const confirmDialog = page.getByRole('dialog');
         await expect(confirmDialog.getByText(/Delete bucket/)).toBeVisible();
+        await confirmDialog.getByLabel('Confirm name').fill(bucketName);
         await confirmDialog.getByRole('button', { name: 'Delete Bucket' }).click();
 
         // Wait for successful deletion and redirection

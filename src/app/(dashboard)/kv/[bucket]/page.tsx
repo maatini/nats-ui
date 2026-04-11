@@ -33,6 +33,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { JsonViewer } from "@/components/ui/json-viewer";
 import { useConfirm } from "@/components/providers/confirm-provider";
+import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
 import { PutEntryDialog } from "@/features/kv/components/put-entry-dialog";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -84,6 +85,7 @@ export default function KVDetailPage() {
             title: `Delete bucket "${bucket}"?`,
             description: "All keys and their history will be permanently removed.",
             confirmText: "Delete Bucket",
+            typedName: bucket as string,
         });
         if (!ok) return;
 
@@ -150,7 +152,13 @@ export default function KVDetailPage() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {filteredKeys.length > 0 ? (
+                                    {isLoading && keys.length === 0 ? (
+                                        <TableRow>
+                                            <TableCell className="p-3">
+                                                <DataTableSkeleton rows={8} columns={1} />
+                                            </TableCell>
+                                        </TableRow>
+                                    ) : filteredKeys.length > 0 ? (
                                         filteredKeys.map((k) => (
                                             <TableRow
                                                 key={k}
@@ -166,7 +174,7 @@ export default function KVDetailPage() {
                                     ) : (
                                         <TableRow>
                                             <TableCell className="h-24 text-center text-muted-foreground/70 text-xs italic">
-                                                {isLoading ? "Loading keys..." : "No keys found"}
+                                                No keys found
                                             </TableCell>
                                         </TableRow>
                                     )}

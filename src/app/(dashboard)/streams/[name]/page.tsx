@@ -23,6 +23,7 @@ import { CreateConsumerDialog } from "@/features/streams/components/create-consu
 import { MessageBrowser } from "@/features/streams/components/message-browser";
 import { Badge } from "@/components/ui/badge";
 import { useConfirm } from "@/components/providers/confirm-provider";
+import { DetailSkeleton } from "@/components/ui/detail-skeleton";
 import Link from "next/link";
 
 export default function StreamDetailPage() {
@@ -67,6 +68,7 @@ export default function StreamDetailPage() {
             title: `Delete stream "${name}"?`,
             description: "This permanently removes the stream and all its messages. This action cannot be undone.",
             confirmText: "Delete Stream",
+            typedName: name as string,
         });
         if (!ok) return;
 
@@ -82,6 +84,13 @@ export default function StreamDetailPage() {
     const handleDeleteConsumer = async (consumerName: string) => {
         if (!activeConnection || !name) return;
 
+        const ok = await confirm({
+            title: `Delete consumer "${consumerName}"?`,
+            description: "Any pending messages for this consumer will be lost.",
+            confirmText: "Delete Consumer",
+        });
+        if (!ok) return;
+
         const result = await deleteConsumer(activeConnection, name as string, consumerName);
         if (result.success) {
             toast.success("Consumer deleted");
@@ -92,7 +101,7 @@ export default function StreamDetailPage() {
     };
 
     if (!activeConnection) return <div className="p-8 text-center text-muted-foreground">No active connection</div>;
-    if (isLoading && !streamInfo) return <div className="p-8 text-center text-muted-foreground">Loading...</div>;
+    if (isLoading && !streamInfo) return <DetailSkeleton />;
     if (!streamInfo) return <div className="p-8 text-center text-muted-foreground">Stream not found</div>;
 
     return (

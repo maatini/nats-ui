@@ -11,13 +11,17 @@ import { HardDrive, AlertCircle, RefreshCcw, Search } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useConfirm } from "@/components/providers/confirm-provider";
+import { useUrlState } from "@/hooks/use-url-state";
 
 export default function OSPage() {
     const [buckets, setBuckets] = React.useState<OsBucketInfo[]>([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState<string | null>(null);
-    const [filter, setFilter] = React.useState("");
+    const [urlState, setUrlState] = useUrlState({ q: "" });
+    const filter = urlState.q;
     const activeConnection = useActiveConnection();
+    const confirm = useConfirm();
 
     const fetchBuckets = React.useCallback(async () => {
         if (!activeConnection) {
@@ -47,6 +51,14 @@ export default function OSPage() {
 
     async function handleDelete(name: string) {
         if (!activeConnection) return;
+
+        const ok = await confirm({
+            title: `Delete bucket "${name}"?`,
+            description: "This permanently removes the bucket and all stored objects.",
+            confirmText: "Delete Bucket",
+            typedName: name,
+        });
+        if (!ok) return;
 
         const promise = deleteOSBucket(activeConnection, name);
 
@@ -102,7 +114,7 @@ export default function OSPage() {
                                 placeholder="Search buckets..."
                                 className="pl-9 bg-card border-border focus:border-cyan-500"
                                 value={filter}
-                                onChange={(e) => setFilter(e.target.value)}
+                                onChange={(e) => setUrlState({ q: e.target.value })}
                             />
                         </div>
                         <Button

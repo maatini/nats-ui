@@ -28,6 +28,8 @@ import { ConnectDialog } from "@/features/connections/components/connect-dialog"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AutoRefreshSelect } from "@/components/ui/auto-refresh-select";
+import { useAutoRefresh } from "@/hooks/use-auto-refresh";
 
 interface DashboardStats {
     streamCount: number | null;
@@ -99,13 +101,25 @@ export function DashboardOverview() {
         }
     }, [activeConnection, fetchDashboardData]);
 
+    const { interval, setInterval } = useAutoRefresh(
+        () => {
+            if (activeConnection) fetchDashboardData(activeConnection);
+        },
+        { storageKey: "nats-ui:dashboard:refresh-interval" }
+    );
+
     return (
         <div className="flex flex-col gap-6 animate-in fade-in duration-500">
-            <div className="flex flex-col gap-1">
-                <h1 className="text-2xl font-bold tracking-tight text-foreground">Welcome to Cobra NATS</h1>
-                <p className="text-muted-foreground">
-                    Monitor and manage your NATS infrastructure from a single dashboard.
-                </p>
+            <div className="flex items-start justify-between gap-4">
+                <div className="flex flex-col gap-1">
+                    <h1 className="text-2xl font-bold tracking-tight text-foreground">Welcome to Cobra NATS</h1>
+                    <p className="text-muted-foreground">
+                        Monitor and manage your NATS infrastructure from a single dashboard.
+                    </p>
+                </div>
+                {activeConnection && (
+                    <AutoRefreshSelect interval={interval} onChange={setInterval} />
+                )}
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

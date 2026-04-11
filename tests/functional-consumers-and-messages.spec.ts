@@ -106,14 +106,16 @@ test.describe('Consumer Creation + Message Browser', () => {
         await expect(consumerRow).toBeVisible({ timeout: 10000 });
         await expect(consumerRow.getByText('PULL', { exact: true })).toBeVisible();
 
-        // Delete the consumer
+        // Delete the consumer — confirm dialog has no typedName
         await consumerRow.getByRole('button').last().click();
+        await page.getByRole('dialog').getByRole('button', { name: 'Delete Consumer' }).click();
         await expect(page.getByText('Consumer deleted')).toBeVisible({ timeout: 10000 });
 
         // --- 6. Delete stream via Radix confirm dialog ---
         await page.getByRole('button', { name: 'Delete', exact: true }).click();
         const confirmDialog = page.getByRole('dialog');
         await expect(confirmDialog.getByText(/Delete stream/)).toBeVisible();
+        await confirmDialog.getByLabel('Confirm name').fill(streamName);
         await confirmDialog.getByRole('button', { name: 'Delete Stream' }).click();
         await expect(page.getByText('Stream deleted')).toBeVisible({ timeout: 10000 });
         await expect(page).toHaveURL(/\/streams/);
@@ -159,7 +161,9 @@ test.describe('Consumer Creation + Message Browser', () => {
 
         // Now actually delete for cleanup
         await page.getByRole('button', { name: 'Delete', exact: true }).click();
-        await page.getByRole('dialog').getByRole('button', { name: 'Delete Stream' }).click();
+        const cleanupDialog = page.getByRole('dialog');
+        await cleanupDialog.getByLabel('Confirm name').fill(streamName);
+        await cleanupDialog.getByRole('button', { name: 'Delete Stream' }).click();
         await expect(page.getByText('Stream deleted')).toBeVisible({ timeout: 10000 });
     });
 });

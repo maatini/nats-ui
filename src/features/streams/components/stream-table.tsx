@@ -42,6 +42,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useUrlState } from "@/hooks/use-url-state";
 
 interface StreamTableProps {
     data: StreamInfo[];
@@ -51,9 +52,22 @@ interface StreamTableProps {
     isLoading: boolean;
 }
 
+const URL_DEFAULTS = { q: "", sort: "", dir: "asc", page: 0 };
+
 export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoading }: StreamTableProps) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [filter, setFilter] = React.useState("");
+    const [urlState, setUrlState] = useUrlState(URL_DEFAULTS);
+    const filter = urlState.q;
+    const setFilter = (q: string) => setUrlState({ q, page: 0 });
+
+    const sorting: SortingState = React.useMemo(
+        () => (urlState.sort ? [{ id: urlState.sort, desc: urlState.dir === "desc" }] : []),
+        [urlState.sort, urlState.dir]
+    );
+    const setSorting = (updater: SortingState | ((old: SortingState) => SortingState)) => {
+        const next = typeof updater === "function" ? updater(sorting) : updater;
+        const head = next[0];
+        setUrlState({ sort: head?.id ?? "", dir: head?.desc ? "desc" : "asc" });
+    };
 
     const filteredData = React.useMemo(() => {
         return data.filter((s) =>
@@ -223,7 +237,15 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
         getSortedRowModel: getSortedRowModel(),
         state: {
             sorting,
+            pagination: { pageIndex: urlState.page, pageSize: 10 },
         },
+        onPaginationChange: updater => {
+            const next = typeof updater === "function"
+                ? updater({ pageIndex: urlState.page, pageSize: 10 })
+                : updater;
+            setUrlState({ page: next.pageIndex });
+        },
+        manualPagination: false,
     });
 
     return (
@@ -249,8 +271,8 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                 </Button>
             </div>
 
-            <div className="rounded-md border border-border bg-card/50">
-                <Table>
+            <div className="rounded-md border border-border bg-card/50 overflow-x-auto">
+                <Table className="min-w-[720px]">
                     <TableHeader className="bg-card">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id} className="border-border hover:bg-transparent">
