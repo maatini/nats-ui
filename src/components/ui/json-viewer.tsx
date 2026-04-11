@@ -40,7 +40,7 @@ function highlightJson(pretty: string): string {
         /("(\\.|[^"\\])*"\s*:)|("(\\.|[^"\\])*")|(\b-?\d+(\.\d+)?([eE][+-]?\d+)?\b)|(\btrue\b|\bfalse\b)|(\bnull\b)/g,
         match => {
             if (/^".*":$/.test(match)) {
-                return `<span class="text-cyan-400">${match.slice(0, -1)}</span><span class="text-slate-500">:</span>`;
+                return `<span class="text-cyan-400">${match.slice(0, -1)}</span><span class="text-muted-foreground">:</span>`;
             }
             if (/^"/.test(match)) return `<span class="text-emerald-300">${match}</span>`;
             if (/true|false/.test(match)) return `<span class="text-amber-400">${match}</span>`;
@@ -73,7 +73,7 @@ export function JsonViewer({ value, className, showBadge = false, rawClassName }
     if (!result) {
         return (
             <pre className={cn("font-mono text-xs whitespace-pre-wrap break-all", rawClassName ?? className)}>
-                {value || <span className="text-slate-600 italic">(empty)</span>}
+                {value || <span className="text-muted-foreground/70 italic">(empty)</span>}
             </pre>
         );
     }

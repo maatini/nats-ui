@@ -96,12 +96,12 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
     };
 
     return (
-        <Card className="bg-slate-900 border-slate-800">
+        <Card className="bg-card border-border">
             <CardHeader className="pb-4">
                 <CardTitle className="text-sm font-semibold flex items-center gap-2 text-amber-400">
                     <MessageSquare className="size-4" />
                     Message Browser
-                    <Badge variant="outline" className="ml-2 bg-slate-800 text-slate-400 border-slate-700 font-mono text-[10px]">
+                    <Badge variant="outline" className="ml-2 bg-muted text-muted-foreground border-border font-mono text-[10px]">
                         seq {firstSeq} – {lastSeq}
                     </Badge>
                 </CardTitle>
@@ -110,7 +110,7 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
                 {/* Controls */}
                 <div className="grid gap-3 md:grid-cols-4 items-end">
                     <div className="space-y-1">
-                        <Label className="text-[10px] text-slate-500 uppercase font-bold flex items-center gap-1">
+                        <Label className="text-[10px] text-muted-foreground uppercase font-bold flex items-center gap-1">
                             <Hash className="size-3" /> Start Sequence
                         </Label>
                         <Input
@@ -118,22 +118,22 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
                             value={startSeq}
                             onChange={e => setStartSeq(e.target.value)}
                             placeholder={String(firstSeq)}
-                            className="bg-slate-950 border-slate-800 text-slate-200 h-9"
+                            className="bg-background border-border text-foreground h-9"
                         />
                     </div>
                     <div className="space-y-1">
-                        <Label className="text-[10px] text-slate-500 uppercase font-bold">Batch Size</Label>
+                        <Label className="text-[10px] text-muted-foreground uppercase font-bold">Batch Size</Label>
                         <Input
                             type="number"
                             value={batchSize}
                             onChange={e => setBatchSize(e.target.value)}
                             min={1}
                             max={500}
-                            className="bg-slate-950 border-slate-800 text-slate-200 h-9"
+                            className="bg-background border-border text-foreground h-9"
                         />
                     </div>
                     <div className="space-y-1">
-                        <Label className="text-[10px] text-slate-500 uppercase font-bold flex items-center gap-1">
+                        <Label className="text-[10px] text-muted-foreground uppercase font-bold flex items-center gap-1">
                             <Filter className="size-3" /> Subject Filter
                         </Label>
                         <Input
@@ -141,7 +141,7 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
                             value={subjectFilter}
                             onChange={e => setSubjectFilter(e.target.value)}
                             placeholder="orders.*"
-                            className="bg-slate-950 border-slate-800 text-slate-200 h-9 font-mono"
+                            className="bg-background border-border text-foreground h-9 font-mono"
                         />
                     </div>
                     <Button
@@ -156,9 +156,9 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
 
                 {/* Empty state */}
                 {messages.length === 0 && !isLoading && (
-                    <div className="flex flex-col items-center justify-center py-16 text-center border border-dashed border-slate-800 rounded-lg">
-                        <MessageSquare className="size-10 text-slate-700 mb-3" />
-                        <p className="text-sm text-slate-500">
+                    <div className="flex flex-col items-center justify-center py-16 text-center border border-dashed border-border rounded-lg">
+                        <MessageSquare className="size-10 text-muted-foreground/50 mb-3" />
+                        <p className="text-sm text-muted-foreground">
                             {lastSeq === 0
                                 ? "Stream is empty."
                                 : "Click \"Load Messages\" to browse stream contents."}
@@ -168,24 +168,24 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
 
                 {/* Message list */}
                 {messages.length > 0 && (
-                    <ScrollArea className="h-[520px] rounded-md border border-slate-800">
-                        <div className="divide-y divide-slate-800">
+                    <ScrollArea className="h-[520px] rounded-md border border-border">
+                        <div className="divide-y divide-border">
                             {messages.map(msg => {
                                 const isOpen = expanded.has(msg.seq);
                                 const pretty = tryPrettyJson(msg.data);
                                 const isJson = pretty !== null;
                                 const headerEntries = Object.entries(msg.headers);
                                 return (
-                                    <div key={msg.seq} className="bg-slate-900">
+                                    <div key={msg.seq} className="bg-card">
                                         <button
                                             type="button"
                                             onClick={() => toggleExpanded(msg.seq)}
-                                            className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-800/50 transition-colors text-left"
+                                            className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-muted/50 transition-colors text-left"
                                         >
                                             {isOpen ? (
-                                                <ChevronDown className="size-4 text-slate-500 shrink-0" />
+                                                <ChevronDown className="size-4 text-muted-foreground shrink-0" />
                                             ) : (
-                                                <ChevronRight className="size-4 text-slate-500 shrink-0" />
+                                                <ChevronRight className="size-4 text-muted-foreground shrink-0" />
                                             )}
                                             <Badge
                                                 variant="outline"
@@ -196,27 +196,27 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
                                             <span className="text-xs text-indigo-300 font-mono truncate flex-1">
                                                 {msg.subject}
                                             </span>
-                                            <span className="text-[10px] text-slate-500 font-mono tabular-nums shrink-0 flex items-center gap-1">
+                                            <span className="text-[10px] text-muted-foreground font-mono tabular-nums shrink-0 flex items-center gap-1">
                                                 <Clock className="size-3" />
                                                 {format(new Date(msg.timestamp), "yyyy-MM-dd HH:mm:ss")}
                                             </span>
-                                            <span className="text-[10px] text-slate-600 font-mono tabular-nums shrink-0 w-16 text-right">
+                                            <span className="text-[10px] text-muted-foreground/70 font-mono tabular-nums shrink-0 w-16 text-right">
                                                 {msg.size} B
                                             </span>
                                         </button>
 
                                         {isOpen && (
-                                            <div className="px-4 pb-4 pt-1 space-y-3 bg-slate-950/40">
+                                            <div className="px-4 pb-4 pt-1 space-y-3 bg-background/40">
                                                 {headerEntries.length > 0 && (
                                                     <div>
-                                                        <div className="text-[10px] text-slate-500 uppercase font-bold mb-1">
+                                                        <div className="text-[10px] text-muted-foreground uppercase font-bold mb-1">
                                                             Headers
                                                         </div>
-                                                        <div className="rounded border border-slate-800 bg-slate-950 p-2 space-y-1">
+                                                        <div className="rounded border border-border bg-background p-2 space-y-1">
                                                             {headerEntries.map(([k, vs]) => (
                                                                 <div key={k} className="flex gap-2 text-[11px] font-mono">
                                                                     <span className="text-cyan-400">{k}:</span>
-                                                                    <span className="text-slate-300">{vs.join(", ")}</span>
+                                                                    <span className="text-foreground/80">{vs.join(", ")}</span>
                                                                 </div>
                                                             ))}
                                                         </div>
@@ -224,7 +224,7 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
                                                 )}
                                                 <div>
                                                     <div className="flex items-center gap-2 mb-1">
-                                                        <span className="text-[10px] text-slate-500 uppercase font-bold">
+                                                        <span className="text-[10px] text-muted-foreground uppercase font-bold">
                                                             Payload
                                                         </span>
                                                         {isJson && (
@@ -236,8 +236,8 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
                                                             </Badge>
                                                         )}
                                                     </div>
-                                                    <pre className="rounded border border-slate-800 bg-slate-950 p-3 text-[11px] text-slate-200 font-mono overflow-x-auto whitespace-pre-wrap break-words max-h-96">
-                                                        {pretty ?? msg.data ?? <span className="text-slate-600 italic">(empty)</span>}
+                                                    <pre className="rounded border border-border bg-background p-3 text-[11px] text-foreground font-mono overflow-x-auto whitespace-pre-wrap break-words max-h-96">
+                                                        {pretty ?? msg.data ?? <span className="text-muted-foreground/70 italic">(empty)</span>}
                                                     </pre>
                                                 </div>
                                             </div>
@@ -250,9 +250,9 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
                 )}
 
                 {messages.length > 0 && (
-                    <div className="flex items-center justify-between text-xs text-slate-500">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
                         <span>
-                            Loaded <span className="text-slate-300 font-mono">{messages.length}</span> messages
+                            Loaded <span className="text-foreground/80 font-mono">{messages.length}</span> messages
                             {hasMore && <span className="text-amber-400"> (more available)</span>}
                         </span>
                         <div className="flex gap-2">
@@ -261,7 +261,7 @@ export function MessageBrowser({ config, streamName, firstSeq, lastSeq }: Messag
                                 size="sm"
                                 onClick={handleLoad}
                                 disabled={isLoading}
-                                className="bg-slate-900 border-slate-800 text-slate-300"
+                                className="bg-card border-border text-foreground/80"
                             >
                                 <RefreshCcw className="size-3 mr-1.5" /> Reload
                             </Button>

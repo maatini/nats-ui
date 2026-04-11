@@ -102,73 +102,73 @@ export function DashboardOverview() {
     return (
         <div className="flex flex-col gap-6 animate-in fade-in duration-500">
             <div className="flex flex-col gap-1">
-                <h1 className="text-2xl font-bold tracking-tight text-slate-100">Welcome to Cobra NATS</h1>
-                <p className="text-slate-400">
+                <h1 className="text-2xl font-bold tracking-tight text-foreground">Welcome to Cobra NATS</h1>
+                <p className="text-muted-foreground">
                     Monitor and manage your NATS infrastructure from a single dashboard.
                 </p>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="bg-slate-900 border-slate-800 hover:border-indigo-500/50 transition-colors group">
+                <Card className="bg-card border-border hover:border-indigo-500/50 transition-colors group">
                     <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                        <CardTitle className="text-sm font-medium text-slate-400">Total Connections</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Total Connections</CardTitle>
                         <Database className="size-4 text-indigo-400 group-hover:scale-110 transition-transform" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-slate-100">{connections.length}</div>
-                        <p className="text-xs text-slate-500">Saved in your browser</p>
+                        <div className="text-2xl font-bold text-foreground">{connections.length}</div>
+                        <p className="text-xs text-muted-foreground">Saved in your browser</p>
                     </CardContent>
                 </Card>
-                <Card className="bg-slate-900 border-slate-800 hover:border-emerald-500/50 transition-colors group">
+                <Card className="bg-card border-border hover:border-emerald-500/50 transition-colors group">
                     <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                        <CardTitle className="text-sm font-medium text-slate-400">Active Server</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Active Server</CardTitle>
                         <Server className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-slate-100">
+                        <div className="text-2xl font-bold text-foreground">
                             {activeConnection ? "Connected" : "Idle"}
                         </div>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-muted-foreground">
                             {activeConnection ? activeConnection.name : "No active connection"}
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="bg-slate-900 border-slate-800 hover:border-amber-500/50 transition-colors group">
+                <Card className="bg-card border-border hover:border-amber-500/50 transition-colors group">
                     <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                        <CardTitle className="text-sm font-medium text-slate-400">Streams</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">Streams</CardTitle>
                         <Layers className="size-4 text-amber-400 group-hover:scale-110 transition-transform" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-slate-100">
+                        <div className="text-2xl font-bold text-foreground">
                             {loading ? (
-                                <Loader2 className="size-5 animate-spin text-slate-500" />
+                                <Loader2 className="size-5 animate-spin text-muted-foreground" />
                             ) : stats.streamCount !== null ? (
                                 stats.streamCount
                             ) : (
                                 "--"
                             )}
                         </div>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-muted-foreground">
                             {stats.jetstream ? "JetStream enabled" : "JetStream stats"}
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="bg-slate-900 border-slate-800 hover:border-rose-500/50 transition-colors group">
+                <Card className="bg-card border-border hover:border-rose-500/50 transition-colors group">
                     <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                        <CardTitle className="text-sm font-medium text-slate-400">KV Buckets</CardTitle>
+                        <CardTitle className="text-sm font-medium text-muted-foreground">KV Buckets</CardTitle>
                         <Database className="size-4 text-rose-400 group-hover:scale-110 transition-transform" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-slate-100">
+                        <div className="text-2xl font-bold text-foreground">
                             {loading ? (
-                                <Loader2 className="size-5 animate-spin text-slate-500" />
+                                <Loader2 className="size-5 animate-spin text-muted-foreground" />
                             ) : stats.kvBucketCount !== null ? (
                                 stats.kvBucketCount
                             ) : (
                                 "--"
                             )}
                         </div>
-                        <p className="text-xs text-slate-500">Key-Value stores</p>
+                        <p className="text-xs text-muted-foreground">Key-Value stores</p>
                     </CardContent>
                 </Card>
             </div>
@@ -181,12 +181,12 @@ export function DashboardOverview() {
             )}
 
             <div className="grid gap-6 md:grid-cols-2">
-                <Card className="bg-slate-900 border-slate-800 overflow-hidden">
-                    <CardHeader className="border-b border-slate-800 bg-slate-900/50">
+                <Card className="bg-card border-border overflow-hidden">
+                    <CardHeader className="border-b border-border bg-card/50">
                         <div className="flex items-center justify-between">
                             <div>
-                                <CardTitle className="text-lg text-slate-100">Active Connection</CardTitle>
-                                <CardDescription className="text-slate-400">Server status and information</CardDescription>
+                                <CardTitle className="text-lg text-foreground">Active Connection</CardTitle>
+                                <CardDescription className="text-muted-foreground">Server status and information</CardDescription>
                             </div>
                             {activeConnection && (
                                 <Badge variant="outline" className="text-emerald-500 border-emerald-500/20 bg-emerald-500/5 px-3 py-1">
@@ -197,20 +197,20 @@ export function DashboardOverview() {
                     </CardHeader>
                     <CardContent className="p-0">
                         {activeConnection ? (
-                            <div className="divide-y divide-slate-800">
+                            <div className="divide-y divide-border">
                                 <div className="flex items-center justify-between p-4">
                                     <div className="flex items-center gap-3">
                                         <div className="rounded-md bg-indigo-500/10 p-2">
                                             <Info className="size-4 text-indigo-400" />
                                         </div>
                                         <div>
-                                            <div className="text-sm font-medium text-slate-200">Server Name</div>
-                                            <div className="text-xs text-slate-500">{activeConnection.name}</div>
+                                            <div className="text-sm font-medium text-foreground">Server Name</div>
+                                            <div className="text-xs text-muted-foreground">{activeConnection.name}</div>
                                         </div>
                                     </div>
-                                    <div className="text-sm text-slate-300">
+                                    <div className="text-sm text-foreground/80">
                                         {loading ? (
-                                            <Loader2 className="size-4 animate-spin text-slate-500" />
+                                            <Loader2 className="size-4 animate-spin text-muted-foreground" />
                                         ) : (
                                             stats.serverName || "–"
                                         )}
@@ -222,13 +222,13 @@ export function DashboardOverview() {
                                             <Activity className="size-4 text-amber-400" />
                                         </div>
                                         <div>
-                                            <div className="text-sm font-medium text-slate-200">Version</div>
-                                            <div className="text-xs text-slate-500">NATS server version</div>
+                                            <div className="text-sm font-medium text-foreground">Version</div>
+                                            <div className="text-xs text-muted-foreground">NATS server version</div>
                                         </div>
                                     </div>
-                                    <div className="text-sm text-slate-300">
+                                    <div className="text-sm text-foreground/80">
                                         {loading ? (
-                                            <Loader2 className="size-4 animate-spin text-slate-500" />
+                                            <Loader2 className="size-4 animate-spin text-muted-foreground" />
                                         ) : stats.serverVersion ? (
                                             `v${stats.serverVersion}`
                                         ) : (
@@ -242,29 +242,29 @@ export function DashboardOverview() {
                                             <Zap className="size-4 text-emerald-400" />
                                         </div>
                                         <div>
-                                            <div className="text-sm font-medium text-slate-200">JetStream</div>
-                                            <div className="text-xs text-slate-500">Persistence engine</div>
+                                            <div className="text-sm font-medium text-foreground">JetStream</div>
+                                            <div className="text-xs text-muted-foreground">Persistence engine</div>
                                         </div>
                                     </div>
                                     <div className="text-sm">
                                         {loading ? (
-                                            <Loader2 className="size-4 animate-spin text-slate-500" />
+                                            <Loader2 className="size-4 animate-spin text-muted-foreground" />
                                         ) : stats.jetstream ? (
                                             <Badge variant="outline" className="text-emerald-500 border-emerald-500/20 bg-emerald-500/5">
                                                 Enabled
                                             </Badge>
                                         ) : (
-                                            <Badge variant="outline" className="text-slate-500 border-slate-700">
+                                            <Badge variant="outline" className="text-muted-foreground border-border">
                                                 Disabled
                                             </Badge>
                                         )}
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-between p-4 text-sm">
-                                    <div className="text-slate-400">Servers</div>
+                                    <div className="text-muted-foreground">Servers</div>
                                     <div className="flex flex-wrap gap-1 justify-end">
                                         {activeConnection.servers.map((s) => (
-                                            <Badge key={s} variant="secondary" className="bg-slate-800 text-slate-300 hover:bg-slate-700">
+                                            <Badge key={s} variant="secondary" className="bg-muted text-foreground/80 hover:bg-muted">
                                                 {s}
                                             </Badge>
                                         ))}
@@ -273,11 +273,11 @@ export function DashboardOverview() {
                             </div>
                         ) : (
                             <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-                                <div className="rounded-full bg-slate-800 p-4 mb-4">
-                                    <Plus className="size-8 text-slate-500" />
+                                <div className="rounded-full bg-muted p-4 mb-4">
+                                    <Plus className="size-8 text-muted-foreground" />
                                 </div>
-                                <h3 className="text-lg font-medium text-slate-300">No connection selected</h3>
-                                <p className="text-sm text-slate-500 mt-2 max-w-xs">
+                                <h3 className="text-lg font-medium text-foreground/80">No connection selected</h3>
+                                <p className="text-sm text-muted-foreground mt-2 max-w-xs">
                                     Select an existing connection from the topbar or create a new one to start monitoring.
                                 </p>
                                 <ConnectDialog
@@ -292,34 +292,34 @@ export function DashboardOverview() {
                     </CardContent>
                 </Card>
 
-                <Card className="bg-slate-900 border-slate-800">
+                <Card className="bg-card border-border">
                     <CardHeader>
-                        <CardTitle className="text-lg text-slate-100">Quick Actions</CardTitle>
-                        <CardDescription className="text-slate-400">Common management tasks</CardDescription>
+                        <CardTitle className="text-lg text-foreground">Quick Actions</CardTitle>
+                        <CardDescription className="text-muted-foreground">Common management tasks</CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-3">
-                        <Button variant="outline" className="justify-start gap-3 h-12 border-slate-800 bg-slate-900 hover:bg-slate-800 hover:text-indigo-400" asChild>
+                        <Button variant="outline" className="justify-start gap-3 h-12 border-border bg-card hover:bg-muted hover:text-indigo-400" asChild>
                             <Link href="/publish">
                                 <Send className="size-4 text-indigo-400" />
                                 <span>Publish Message</span>
                                 <ArrowRight className="size-4 ml-auto opacity-50" />
                             </Link>
                         </Button>
-                        <Button variant="outline" className="justify-start gap-3 h-12 border-slate-800 bg-slate-900 hover:bg-slate-800 hover:text-amber-400" asChild>
+                        <Button variant="outline" className="justify-start gap-3 h-12 border-border bg-card hover:bg-muted hover:text-amber-400" asChild>
                             <Link href="/streams">
                                 <Layers className="size-4 text-amber-400" />
                                 <span>Create Stream</span>
                                 <ArrowRight className="size-4 ml-auto opacity-50" />
                             </Link>
                         </Button>
-                        <Button variant="outline" className="justify-start gap-3 h-12 border-slate-800 bg-slate-900 hover:bg-slate-800 hover:text-rose-400" asChild>
+                        <Button variant="outline" className="justify-start gap-3 h-12 border-border bg-card hover:bg-muted hover:text-rose-400" asChild>
                             <Link href="/monitor">
                                 <Monitor className="size-4 text-rose-400" />
                                 <span>Open Subject Monitor</span>
                                 <ArrowRight className="size-4 ml-auto opacity-50" />
                             </Link>
                         </Button>
-                        <Button variant="outline" className="justify-start gap-3 h-12 border-slate-800 bg-slate-900 hover:bg-slate-800 hover:text-emerald-400" asChild>
+                        <Button variant="outline" className="justify-start gap-3 h-12 border-border bg-card hover:bg-muted hover:text-emerald-400" asChild>
                             <Link href="/kv">
                                 <Database className="size-4 text-emerald-400" />
                                 <span>Browse KV Stores</span>

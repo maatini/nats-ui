@@ -36,24 +36,28 @@ function formatBytes(bytes: number): string {
 
 export function OSBucketCard({ bucket, onDelete }: OSBucketCardProps) {
     return (
-        <Card className="bg-slate-900 border-slate-800 hover:border-cyan-500/50 transition-colors group">
-            <CardHeader className="flex flex-row items-start justify-between pb-2">
-                <div className="flex items-center gap-3">
-                    <div className="rounded-md bg-cyan-500/10 p-2">
+        <Card className="bg-card border-border hover:border-cyan-500/50 transition-colors group">
+            <CardHeader className="flex flex-row items-start justify-between gap-2 pb-2">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <div className="rounded-md bg-cyan-500/10 p-2 shrink-0">
                         <HardDrive className="size-5 text-cyan-500" />
                     </div>
-                    <div>
-                        <CardTitle className="text-lg text-slate-100">{bucket.bucket}</CardTitle>
-                        <div className="text-[10px] text-slate-500 font-mono">OBJ_{bucket.bucket}</div>
+                    <div className="min-w-0 flex-1">
+                        <CardTitle className="text-lg text-foreground truncate" title={bucket.bucket}>
+                            {bucket.bucket}
+                        </CardTitle>
+                        <div className="text-[10px] text-muted-foreground font-mono truncate">
+                            OBJ_{bucket.bucket}
+                        </div>
                     </div>
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0 text-slate-500 hover:text-slate-100">
+                        <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
                             <MoreVertical className="size-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="bg-slate-900 border-slate-800 text-slate-200">
+                    <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
                         <DropdownMenuItem asChild className="focus:bg-cyan-600">
                             <Link href={`/os/${bucket.bucket}`} className="flex items-center gap-2 cursor-pointer">
                                 <Eye className="size-4" />
@@ -73,25 +77,25 @@ export function OSBucketCard({ bucket, onDelete }: OSBucketCardProps) {
             <CardContent className="py-4">
                 <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1">
-                        <div className="text-xs text-slate-500 flex items-center gap-1">
+                        <div className="text-xs text-muted-foreground flex items-center gap-1">
                             <Hash className="size-3" />
                             Objects
                         </div>
-                        <div className="text-lg font-semibold text-slate-200 tabular-nums">
+                        <div className="text-lg font-semibold text-foreground tabular-nums">
                             {bucket.objectCount.toLocaleString()}
                         </div>
                     </div>
                     <div className="flex flex-col gap-1 text-right">
-                        <div className="text-xs text-slate-500 flex items-center gap-1 justify-end">
+                        <div className="text-xs text-muted-foreground flex items-center gap-1 justify-end">
                             <Package className="size-3" />
                             Size
                         </div>
-                        <div className="text-lg font-semibold text-slate-200 tabular-nums">
+                        <div className="text-lg font-semibold text-foreground tabular-nums">
                             {formatBytes(bucket.size)}
                         </div>
                     </div>
                 </div>
-                <div className="mt-4 flex items-center justify-between text-[10px] text-slate-500">
+                <div className="mt-4 flex items-center justify-between text-[10px] text-muted-foreground">
                     <span>Replicas: {bucket.replicas}</span>
                     <div className="flex items-center gap-2">
                         {bucket.sealed && (
@@ -99,7 +103,7 @@ export function OSBucketCard({ bucket, onDelete }: OSBucketCardProps) {
                                 Sealed
                             </Badge>
                         )}
-                        <Badge variant="outline" className="text-[10px] border-slate-800 bg-slate-950 px-1 py-0 h-4">
+                        <Badge variant="outline" className="text-[10px] border-border bg-background px-1 py-0 h-4">
                             {bucket.storage === "file" ? "File" : "Memory"}
                         </Badge>
                     </div>
@@ -108,7 +112,7 @@ export function OSBucketCard({ bucket, onDelete }: OSBucketCardProps) {
             <CardFooter className="pt-0">
                 <Button
                     variant="secondary"
-                    className="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs h-8"
+                    className="w-full bg-muted hover:bg-muted text-foreground/80 text-xs h-8"
                     asChild
                 >
                     <Link href={`/os/${bucket.bucket}`}>

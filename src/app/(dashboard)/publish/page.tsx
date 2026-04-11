@@ -93,18 +93,18 @@ export default function PublishPage() {
     return (
         <div className="flex flex-col gap-6 animate-in fade-in duration-500 max-w-5xl mx-auto">
             <div className="flex flex-col gap-1">
-                <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center gap-2">
+                <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
                     <Send className="size-6 text-indigo-400" />
                     Publish Message
                 </h1>
-                <p className="text-slate-400">
+                <p className="text-muted-foreground">
                     Send messages or make requests to NATS subjects with custom headers and payloads.
                 </p>
             </div>
 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-6 md:grid-cols-3">
-                    <Card className="col-span-2 bg-slate-900 border-slate-800">
+                    <Card className="col-span-2 bg-card border-border">
                         <CardHeader>
                             <CardTitle className="text-lg">Message Content</CardTitle>
                         </CardHeader>
@@ -116,7 +116,7 @@ export default function PublishPage() {
                                     <FormItem>
                                         <FormLabel>Subject</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="orders.new" {...field} className="bg-slate-950 border-slate-800 font-mono" />
+                                            <Input placeholder="orders.new" {...field} className="bg-background border-border font-mono" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -132,7 +132,7 @@ export default function PublishPage() {
                                         <FormControl>
                                             <textarea
                                                 {...field}
-                                                className="min-h-[300px] w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm font-mono text-slate-300 ring-offset-slate-950 placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+                                                className="min-h-[300px] w-full rounded-md border border-border bg-background px-3 py-2 text-sm font-mono text-foreground/80 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
                                                 placeholder='{"key": "value"}'
                                             />
                                         </FormControl>
@@ -144,7 +144,7 @@ export default function PublishPage() {
                     </Card>
 
                     <div className="space-y-6">
-                        <Card className="bg-slate-900 border-slate-800">
+                        <Card className="bg-card border-border">
                             <CardHeader>
                                 <CardTitle className="text-lg">Options</CardTitle>
                             </CardHeader>
@@ -153,13 +153,13 @@ export default function PublishPage() {
                                     control={form.control}
                                     name="isRequest"
                                     render={({ field }) => (
-                                        <FormItem className="flex flex-row items-center justify-between rounded-lg border border-slate-800 p-3 shadow-sm bg-slate-950 hover:border-indigo-500/50 transition-colors cursor-pointer" onClick={() => field.onChange(!field.value)}>
+                                        <FormItem className="flex flex-row items-center justify-between rounded-lg border border-border p-3 shadow-sm bg-background hover:border-indigo-500/50 transition-colors cursor-pointer" onClick={() => field.onChange(!field.value)}>
                                             <div className="space-y-0.5">
                                                 <FormLabel className="cursor-pointer">Request Mode</FormLabel>
                                                 <FormDescription className="text-[10px]">Wait for a reply</FormDescription>
                                             </div>
                                             <FormControl>
-                                                <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${field.value ? 'bg-indigo-600' : 'bg-slate-700'}`}>
+                                                <div className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${field.value ? 'bg-indigo-600' : 'bg-muted'}`}>
                                                     <span className={`pointer-events-none block h-4 w-4 rounded-full bg-white shadow-lg ring-0 transition-transform ${field.value ? 'translate-x-4' : 'translate-x-1'}`} />
                                                 </div>
                                             </FormControl>
@@ -170,13 +170,13 @@ export default function PublishPage() {
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
                                         <FormLabel>Headers</FormLabel>
-                                        <Button type="button" variant="ghost" size="sm" onClick={() => append({ key: "", value: "" })} className="h-7 text-indigo-400 hover:text-indigo-300 hover:bg-slate-800">
+                                        <Button type="button" variant="ghost" size="sm" onClick={() => append({ key: "", value: "" })} className="h-7 text-indigo-400 hover:text-indigo-300 hover:bg-muted">
                                             <Plus className="size-3 mr-1" /> Add
                                         </Button>
                                     </div>
-                                    <ScrollArea className="h-[200px] rounded-md border border-slate-800 bg-slate-950 p-2">
+                                    <ScrollArea className="h-[200px] rounded-md border border-border bg-background p-2">
                                         {fields.length === 0 && (
-                                            <div className="text-[10px] text-slate-600 text-center py-8">No headers added</div>
+                                            <div className="text-[10px] text-muted-foreground/70 text-center py-8">No headers added</div>
                                         )}
                                         <div className="space-y-2">
                                             {fields.map((field, index) => (
@@ -184,12 +184,12 @@ export default function PublishPage() {
                                                     <Input
                                                         {...form.register(`headers.${index}.key` as const)}
                                                         placeholder="Key"
-                                                        className="h-8 text-xs bg-slate-900 border-slate-800"
+                                                        className="h-8 text-xs bg-card border-border"
                                                     />
                                                     <Input
                                                         {...form.register(`headers.${index}.value` as const)}
                                                         placeholder="Value"
-                                                        className="h-8 text-xs bg-slate-900 border-slate-800"
+                                                        className="h-8 text-xs bg-card border-border"
                                                     />
                                                     <Button type="button" variant="ghost" size="icon" onClick={() => remove(index)} className="h-8 w-8 text-rose-500 hover:bg-rose-500/10">
                                                         <Trash2 className="size-3" />
@@ -218,7 +218,7 @@ export default function PublishPage() {
                         </Card>
 
                         {reply && (
-                            <Card className="bg-slate-900 border-emerald-500/30 animate-in zoom-in-95 duration-300">
+                            <Card className="bg-card border-emerald-500/30 animate-in zoom-in-95 duration-300">
                                 <CardHeader className="pb-2">
                                     <CardTitle className="text-sm flex items-center gap-2 text-emerald-400">
                                         <MessageSquareQuote className="size-4" />
@@ -226,14 +226,14 @@ export default function PublishPage() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <pre className="text-[10px] font-mono p-2 bg-slate-950 rounded-md border border-slate-800 text-slate-300 overflow-auto max-h-[150px]">
+                                    <pre className="text-[10px] font-mono p-2 bg-background rounded-md border border-border text-foreground/80 overflow-auto max-h-[150px]">
                                         {reply.data}
                                     </pre>
                                     {reply.headers && Object.keys(reply.headers).length > 0 && (
                                         <div className="mt-2 space-y-1">
-                                            <span className="text-[10px] text-slate-500">Headers:</span>
+                                            <span className="text-[10px] text-muted-foreground">Headers:</span>
                                             {Object.entries(reply.headers || {}).map(([k, v]) => (
-                                                <div key={k} className="text-[9px] text-slate-400 flex gap-2">
+                                                <div key={k} className="text-[9px] text-muted-foreground flex gap-2">
                                                     <span className="font-bold">{k}:</span>
                                                     <span>{v}</span>
                                                 </div>

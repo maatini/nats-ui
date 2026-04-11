@@ -71,7 +71,7 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                 return (
                     <div className="flex items-center gap-2">
                         <Layers className="size-4 text-amber-400" />
-                        <span className="font-medium text-slate-200">{name}</span>
+                        <span className="font-medium text-foreground">{name}</span>
                     </div>
                 );
             },
@@ -84,12 +84,12 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                 return (
                     <div className="flex flex-wrap gap-1 max-w-[200px]">
                         {subjects.slice(0, 2).map((s) => (
-                            <Badge key={s} variant="outline" className="text-[10px] bg-slate-800 border-slate-700 text-slate-400">
+                            <Badge key={s} variant="outline" className="text-[10px] bg-muted border-border text-muted-foreground">
                                 {s}
                             </Badge>
                         ))}
                         {subjects.length > 2 && (
-                            <Badge variant="outline" className="text-[10px] bg-slate-800 border-slate-700 text-slate-500">
+                            <Badge variant="outline" className="text-[10px] bg-muted border-border text-muted-foreground">
                                 +{subjects.length - 2}
                             </Badge>
                         )}
@@ -101,7 +101,7 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
             accessorKey: "state.messages",
             header: "Messages",
             cell: ({ row }) => (
-                <span className="text-slate-300 tabular-nums">
+                <span className="text-foreground/80 tabular-nums">
                     {row.original.state.messages.toLocaleString()}
                 </span>
             ),
@@ -113,7 +113,7 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                 const name = row.original.config.name;
                 const stats = consumerStats?.[name];
                 return (
-                    <span className="text-slate-400 tabular-nums">
+                    <span className="text-muted-foreground tabular-nums">
                         {stats != null ? stats.consumers.toLocaleString() : "–"}
                     </span>
                 );
@@ -126,7 +126,7 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                 const name = row.original.config.name;
                 const stats = consumerStats?.[name];
                 return (
-                    <span className="text-slate-400 tabular-nums">
+                    <span className="text-muted-foreground tabular-nums">
                         {stats != null ? stats.pending.toLocaleString() : "–"}
                     </span>
                 );
@@ -138,11 +138,11 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
             cell: ({ row }) => {
                 const name = row.original.config.name;
                 const stats = consumerStats?.[name];
-                if (stats == null) return <span className="text-slate-500 tabular-nums">–</span>;
+                if (stats == null) return <span className="text-muted-foreground tabular-nums">–</span>;
                 return (
                     <span className={cn(
                         "tabular-nums",
-                        stats.ackPending > 0 ? "text-amber-400" : "text-slate-400"
+                        stats.ackPending > 0 ? "text-amber-400" : "text-muted-foreground"
                     )}>
                         {stats.ackPending.toLocaleString()}
                     </span>
@@ -156,7 +156,7 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                 const bytes = row.original.state.bytes;
                 const mb = bytes / (1024 * 1024);
                 return (
-                    <span className="text-slate-400 tabular-nums text-xs">
+                    <span className="text-muted-foreground tabular-nums text-xs">
                         {mb < 1 ? `${(bytes / 1024).toFixed(1)} KB` : `${mb.toFixed(1)} MB`}
                     </span>
                 );
@@ -169,12 +169,12 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                 try {
                     const date = new Date(row.original.created);
                     return (
-                        <span className="text-slate-500 text-xs">
+                        <span className="text-muted-foreground text-xs">
                             {formatDistanceToNow(date, { addSuffix: true })}
                         </span>
                     );
                 } catch {
-                    return <span className="text-slate-500 text-xs">--</span>;
+                    return <span className="text-muted-foreground text-xs">--</span>;
                 }
             },
         },
@@ -186,12 +186,12 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0 text-slate-400 hover:text-slate-100">
+                            <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
                                 <span className="sr-only">Open menu</span>
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-slate-900 border-slate-800 text-slate-200">
+                        <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem asChild className="focus:bg-indigo-600">
                                 <Link href={`/streams/${stream.config.name}`} className="flex items-center gap-2 cursor-pointer">
@@ -199,7 +199,7 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                                     View Details
                                 </Link>
                             </DropdownMenuItem>
-                            <DropdownMenuSeparator className="bg-slate-800" />
+                            <DropdownMenuSeparator className="bg-muted" />
                             <DropdownMenuItem
                                 onClick={() => onDelete(stream.config.name)}
                                 className="flex items-center gap-2 text-rose-500 focus:bg-rose-600 focus:text-white cursor-pointer"
@@ -230,10 +230,10 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
         <div className="space-y-4">
             <div className="flex items-center justify-between gap-4">
                 <div className="relative flex-1 max-w-sm">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                         placeholder="Search streams..."
-                        className="pl-9 bg-slate-900 border-slate-800 focus:border-amber-500"
+                        className="pl-9 bg-card border-border focus:border-amber-500"
                         value={filter}
                         onChange={(e) => setFilter(e.target.value)}
                     />
@@ -243,19 +243,19 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                     size="icon"
                     onClick={onRefresh}
                     disabled={isLoading}
-                    className="bg-slate-900 border-slate-800 hover:bg-slate-800 hover:text-amber-400"
+                    className="bg-card border-border hover:bg-muted hover:text-amber-400"
                 >
                     <RefreshCcw className={cn("size-4", isLoading && "animate-spin")} />
                 </Button>
             </div>
 
-            <div className="rounded-md border border-slate-800 bg-slate-900/50">
+            <div className="rounded-md border border-border bg-card/50">
                 <Table>
-                    <TableHeader className="bg-slate-900">
+                    <TableHeader className="bg-card">
                         {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id} className="border-slate-800 hover:bg-transparent">
+                            <TableRow key={headerGroup.id} className="border-border hover:bg-transparent">
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id} className="text-slate-400 font-medium h-10">
+                                    <TableHead key={header.id} className="text-muted-foreground font-medium h-10">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -272,7 +272,7 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
-                                    className="border-slate-800 hover:bg-slate-800/50 transition-colors"
+                                    className="border-border hover:bg-muted/50 transition-colors"
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id} className="py-3">
@@ -283,7 +283,7 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={columns.length} className="h-24 text-center text-slate-500">
+                                <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
                                     {isLoading ? "Loading streams..." : "No streams found."}
                                 </TableCell>
                             </TableRow>
@@ -297,7 +297,7 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                     size="sm"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
-                    className="bg-slate-900 border-slate-800 text-slate-300"
+                    className="bg-card border-border text-foreground/80"
                 >
                     Previous
                 </Button>
@@ -306,7 +306,7 @@ export function StreamTable({ data, consumerStats, onDelete, onRefresh, isLoadin
                     size="sm"
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
-                    className="bg-slate-900 border-slate-800 text-slate-300"
+                    className="bg-card border-border text-foreground/80"
                 >
                     Next
                 </Button>

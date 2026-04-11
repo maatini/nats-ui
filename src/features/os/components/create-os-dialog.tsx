@@ -93,13 +93,13 @@ export function CreateOSDialog({ onCreated }: CreateOSDialogProps) {
                     Create Object Store
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-950 border-slate-800 text-slate-100">
+            <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <HardDrive className="size-5 text-cyan-500" />
                         Create New Object Store
                     </DialogTitle>
-                    <DialogDescription className="text-slate-400">
+                    <DialogDescription className="text-muted-foreground">
                         An Object Store provides large binary file storage backed by JetStream.
                     </DialogDescription>
                 </DialogHeader>
@@ -113,7 +113,7 @@ export function CreateOSDialog({ onCreated }: CreateOSDialogProps) {
                                 <FormItem>
                                     <FormLabel>Bucket Name</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="my-assets" {...field} className="bg-slate-900 border-slate-800" />
+                                        <Input placeholder="my-assets" {...field} className="bg-card border-border" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -126,7 +126,7 @@ export function CreateOSDialog({ onCreated }: CreateOSDialogProps) {
                                 <FormItem>
                                     <FormLabel>Description</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Static assets storage" {...field} className="bg-slate-900 border-slate-800" />
+                                        <Input placeholder="Static assets storage" {...field} className="bg-card border-border" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -146,7 +146,7 @@ export function CreateOSDialog({ onCreated }: CreateOSDialogProps) {
                                             onBlur={field.onBlur}
                                             name={field.name}
                                             ref={field.ref}
-                                            className="bg-slate-900 border-slate-800"
+                                            className="bg-card border-border"
                                         />
                                     </FormControl>
                                     <FormMessage />

@@ -84,13 +84,13 @@ export function PutEntryDialog({ bucket, initialKey = "", initialValue = "", onS
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px] bg-slate-950 border-slate-800 text-slate-100">
+            <DialogContent className="sm:max-w-[500px] bg-background border-border text-foreground">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <Database className="size-5 text-emerald-500" />
                         {initialKey ? "Edit Entry" : "Add New Entry"}
                     </DialogTitle>
-                    <DialogDescription className="text-slate-400">
+                    <DialogDescription className="text-muted-foreground">
                         Store a value in the <code>{bucket}</code> bucket.
                     </DialogDescription>
                 </DialogHeader>
@@ -104,7 +104,7 @@ export function PutEntryDialog({ bucket, initialKey = "", initialValue = "", onS
                                 <FormItem>
                                     <FormLabel>Key</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="user.123.profile" {...field} className="bg-slate-900 border-slate-800 font-mono" disabled={!!initialKey} />
+                                        <Input placeholder="user.123.profile" {...field} className="bg-card border-border font-mono" disabled={!!initialKey} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -119,7 +119,7 @@ export function PutEntryDialog({ bucket, initialKey = "", initialValue = "", onS
                                     <FormControl>
                                         <textarea
                                             {...field}
-                                            className="min-h-[200px] w-full rounded-md border border-slate-800 bg-slate-900 px-3 py-2 text-sm font-mono text-slate-300 ring-offset-slate-950 placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
+                                            className="min-h-[200px] w-full rounded-md border border-border bg-card px-3 py-2 text-sm font-mono text-foreground/80 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
                                             placeholder='{"active": true}'
                                         />
                                     </FormControl>

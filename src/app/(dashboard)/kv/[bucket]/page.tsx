@@ -98,26 +98,26 @@ export default function KVDetailPage() {
 
     const filteredKeys = keys.filter(k => k.toLowerCase().includes(filter.toLowerCase()));
 
-    if (!activeConnection) return <div className="p-8 text-center text-slate-500">No active connection</div>;
+    if (!activeConnection) return <div className="p-8 text-center text-muted-foreground">No active connection</div>;
 
     return (
         <div className="flex flex-col h-[calc(100vh-8rem)] gap-6 animate-in fade-in duration-500">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <Button variant="ghost" size="icon" asChild className="text-slate-400 hover:text-slate-100">
+                    <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-foreground">
                         <Link href="/kv">
                             <ChevronLeft className="size-5" />
                         </Link>
                     </Button>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
-                            <h1 className="text-2xl font-bold tracking-tight text-slate-100">{bucket}</h1>
+                            <h1 className="text-2xl font-bold tracking-tight text-foreground">{bucket}</h1>
                             <Badge variant="outline" className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20">KV Store</Badge>
                         </div>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm" onClick={fetchKeys} className="bg-slate-900 border-slate-800 text-slate-300">
+                    <Button variant="outline" size="sm" onClick={fetchKeys} className="bg-card border-border text-foreground/80">
                         <RefreshCcw className="size-4 mr-2" /> Refresh
                     </Button>
                     <Button variant="destructive" size="sm" onClick={handleDeleteBucket}>
@@ -130,10 +130,10 @@ export default function KVDetailPage() {
                 <div className="col-span-1 flex flex-col gap-4 overflow-hidden">
                     <div className="flex items-center gap-2">
                         <div className="relative flex-1">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Filter keys..."
-                                className="pl-9 bg-slate-900 border-slate-800 focus:border-emerald-500 h-9"
+                                className="pl-9 bg-card border-border focus:border-emerald-500 h-9"
                                 value={filter}
                                 onChange={(e) => setFilter(e.target.value)}
                             />
@@ -141,12 +141,12 @@ export default function KVDetailPage() {
                         <PutEntryDialog bucket={bucket as string} onSuccess={fetchKeys} />
                     </div>
 
-                    <div className="flex-1 rounded-md border border-slate-800 bg-slate-900/50 overflow-hidden flex flex-col">
+                    <div className="flex-1 rounded-md border border-border bg-card/50 overflow-hidden flex flex-col">
                         <ScrollArea className="flex-1">
                             <Table>
-                                <TableHeader className="bg-slate-900 sticky top-0 z-10">
-                                    <TableRow className="border-slate-800 hover:bg-transparent">
-                                        <TableHead className="text-slate-400 font-medium h-9 text-xs">Keys ({filteredKeys.length})</TableHead>
+                                <TableHeader className="bg-card sticky top-0 z-10">
+                                    <TableRow className="border-border hover:bg-transparent">
+                                        <TableHead className="text-muted-foreground font-medium h-9 text-xs">Keys ({filteredKeys.length})</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -154,10 +154,10 @@ export default function KVDetailPage() {
                                         filteredKeys.map((k) => (
                                             <TableRow
                                                 key={k}
-                                                className={`border-slate-800/50 cursor-pointer hover:bg-slate-800/50 transition-colors ${selectedEntry?.key === k && 'bg-emerald-500/10'}`}
+                                                className={`border-border/50 cursor-pointer hover:bg-muted/50 transition-colors ${selectedEntry?.key === k && 'bg-emerald-500/10'}`}
                                                 onClick={() => handleFetchEntry(k)}
                                             >
-                                                <TableCell className="py-2.5 px-4 font-mono text-xs text-slate-300 flex items-center gap-2">
+                                                <TableCell className="py-2.5 px-4 font-mono text-xs text-foreground/80 flex items-center gap-2">
                                                     <Key className="size-3 text-emerald-500/50" />
                                                     {k}
                                                 </TableCell>
@@ -165,7 +165,7 @@ export default function KVDetailPage() {
                                         ))
                                     ) : (
                                         <TableRow>
-                                            <TableCell className="h-24 text-center text-slate-600 text-xs italic">
+                                            <TableCell className="h-24 text-center text-muted-foreground/70 text-xs italic">
                                                 {isLoading ? "Loading keys..." : "No keys found"}
                                             </TableCell>
                                         </TableRow>
@@ -179,9 +179,9 @@ export default function KVDetailPage() {
                 <div className="col-span-2 flex flex-col gap-4 overflow-hidden">
                     {selectedEntry ? (
                         <div className="flex-1 flex flex-col gap-4 overflow-hidden animate-in slide-in-from-right-4 duration-300">
-                            <div className="flex items-center justify-between bg-slate-900 p-4 rounded-lg border border-slate-800">
+                            <div className="flex items-center justify-between bg-card p-4 rounded-lg border border-border">
                                 <div className="flex flex-col gap-1">
-                                    <div className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Viewing Key</div>
+                                    <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Viewing Key</div>
                                     <div className="text-lg font-mono font-medium text-emerald-400">{selectedEntry.key}</div>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -191,7 +191,7 @@ export default function KVDetailPage() {
                                         initialValue={selectedEntry.value}
                                         onSuccess={fetchKeys}
                                         trigger={
-                                            <Button variant="outline" size="sm" className="bg-slate-800 border-slate-700 hover:bg-slate-700">
+                                            <Button variant="outline" size="sm" className="bg-muted border-border hover:bg-muted">
                                                 Edit Value
                                             </Button>
                                         }
@@ -200,24 +200,24 @@ export default function KVDetailPage() {
                             </div>
 
                             <div className="grid grid-cols-3 gap-4">
-                                <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-lg flex flex-col gap-1">
-                                    <span className="text-[10px] text-slate-500 uppercase">Revision</span>
-                                    <span className="text-sm font-mono text-slate-200">{selectedEntry.revision}</span>
+                                <div className="bg-card/50 border border-border p-3 rounded-lg flex flex-col gap-1">
+                                    <span className="text-[10px] text-muted-foreground uppercase">Revision</span>
+                                    <span className="text-sm font-mono text-foreground">{selectedEntry.revision}</span>
                                 </div>
-                                <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-lg flex flex-col gap-1">
-                                    <span className="text-[10px] text-slate-500 uppercase">Last Updated</span>
-                                    <span className="text-[10px] text-slate-300">{format(new Date(selectedEntry.created), "MMM d, HH:mm:ss")}</span>
+                                <div className="bg-card/50 border border-border p-3 rounded-lg flex flex-col gap-1">
+                                    <span className="text-[10px] text-muted-foreground uppercase">Last Updated</span>
+                                    <span className="text-[10px] text-foreground/80">{format(new Date(selectedEntry.created), "MMM d, HH:mm:ss")}</span>
                                 </div>
-                                <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-lg flex flex-col gap-1">
-                                    <span className="text-[10px] text-slate-500 uppercase">Operation</span>
+                                <div className="bg-card/50 border border-border p-3 rounded-lg flex flex-col gap-1">
+                                    <span className="text-[10px] text-muted-foreground uppercase">Operation</span>
                                     <Badge variant="outline" className="text-[9px] w-fit border-emerald-500/30 text-emerald-500 bg-emerald-500/5">{selectedEntry.operation}</Badge>
                                 </div>
                             </div>
 
-                            <div className="flex-1 rounded-lg border border-slate-800 bg-slate-950 flex flex-col overflow-hidden">
-                                <div className="px-4 py-2 border-b border-slate-800 bg-slate-900 flex items-center justify-between">
-                                    <span className="text-xs font-semibold text-slate-400">Value Editor</span>
-                                    <span className="text-[10px] text-slate-600 font-mono">Size: {(selectedEntry.value.length / 1024).toFixed(2)} KB</span>
+                            <div className="flex-1 rounded-lg border border-border bg-background flex flex-col overflow-hidden">
+                                <div className="px-4 py-2 border-b border-border bg-card flex items-center justify-between">
+                                    <span className="text-xs font-semibold text-muted-foreground">Value Editor</span>
+                                    <span className="text-[10px] text-muted-foreground/70 font-mono">Size: {(selectedEntry.value.length / 1024).toFixed(2)} KB</span>
                                 </div>
                                 <ScrollArea className="flex-1 p-4">
                                     <JsonViewer
@@ -230,10 +230,10 @@ export default function KVDetailPage() {
                             </div>
                         </div>
                     ) : (
-                        <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-xl bg-slate-900/20 text-center">
-                            <Eye className="size-12 text-slate-700 mb-4 opacity-20" />
-                            <h3 className="text-lg font-medium text-slate-500">Select a key to view details</h3>
-                            <p className="text-sm text-slate-600 mt-2">
+                        <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-border rounded-xl bg-card/20 text-center">
+                            <Eye className="size-12 text-muted-foreground/50 mb-4 opacity-20" />
+                            <h3 className="text-lg font-medium text-muted-foreground">Select a key to view details</h3>
+                            <p className="text-sm text-muted-foreground/70 mt-2">
                                 Choose a key from the list on the left to inspect its value and revision history.
                             </p>
                         </div>

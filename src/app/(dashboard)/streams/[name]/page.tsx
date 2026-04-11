@@ -91,31 +91,31 @@ export default function StreamDetailPage() {
         }
     };
 
-    if (!activeConnection) return <div className="p-8 text-center text-slate-500">No active connection</div>;
-    if (isLoading && !streamInfo) return <div className="p-8 text-center text-slate-500">Loading...</div>;
-    if (!streamInfo) return <div className="p-8 text-center text-slate-500">Stream not found</div>;
+    if (!activeConnection) return <div className="p-8 text-center text-muted-foreground">No active connection</div>;
+    if (isLoading && !streamInfo) return <div className="p-8 text-center text-muted-foreground">Loading...</div>;
+    if (!streamInfo) return <div className="p-8 text-center text-muted-foreground">Stream not found</div>;
 
     return (
         <div className="flex flex-col gap-6 animate-in fade-in duration-500">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <Button variant="ghost" size="icon" asChild className="text-slate-400 hover:text-slate-100">
+                    <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-foreground">
                         <Link href="/streams">
                             <ChevronLeft className="size-5" />
                         </Link>
                     </Button>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
-                            <h1 className="text-2xl font-bold tracking-tight text-slate-100">{name}</h1>
+                            <h1 className="text-2xl font-bold tracking-tight text-foreground">{name}</h1>
                             <Badge variant="outline" className="bg-amber-500/10 text-amber-500 border-amber-500/20">JetStream</Badge>
                         </div>
-                        <p className="text-xs text-slate-500 font-mono italic">
+                        <p className="text-xs text-muted-foreground font-mono italic">
                             Created {new Date(streamInfo.created).toLocaleString()}
                         </p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm" onClick={fetchData} className="bg-slate-900 border-slate-800 text-slate-300">
+                    <Button variant="outline" size="sm" onClick={fetchData} className="bg-card border-border text-foreground/80">
                         <RefreshCcw className="size-4 mr-2" /> Refresh
                     </Button>
                     <Button variant="destructive" size="sm" onClick={handleDeleteStream}>
@@ -125,7 +125,7 @@ export default function StreamDetailPage() {
             </div>
 
             <Tabs defaultValue="info" className="w-full">
-                <TabsList className="bg-slate-900 border border-slate-800 p-1 mb-6">
+                <TabsList className="bg-card border border-border p-1 mb-6">
                     <TabsTrigger value="info" className="data-[state=active]:bg-indigo-600 data-[state=active]:text-white">
                         <Info className="size-4 mr-2" /> Info
                     </TabsTrigger>
@@ -144,7 +144,7 @@ export default function StreamDetailPage() {
                 <TabsContent value="consumers" className="outline-none">
                     <div className="space-y-4">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-medium text-slate-200">Processing Consumers</h3>
+                            <h3 className="text-lg font-medium text-foreground">Processing Consumers</h3>
                             <CreateConsumerDialog streamName={name as string} onCreated={fetchData} />
                         </div>
                         <ConsumerList

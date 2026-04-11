@@ -71,7 +71,7 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
                     if (!open) close(false);
                 }}
             >
-                <DialogContent className="sm:max-w-[440px] bg-slate-950 border-slate-800 text-slate-100">
+                <DialogContent className="sm:max-w-[440px] bg-background border-border text-foreground">
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-2">
                             <AlertTriangle
@@ -84,7 +84,7 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
                             {opts?.title}
                         </DialogTitle>
                         {opts?.description && (
-                            <DialogDescription className="text-slate-400 pt-2">
+                            <DialogDescription className="text-muted-foreground pt-2">
                                 {opts.description}
                             </DialogDescription>
                         )}
@@ -94,7 +94,7 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
                             type="button"
                             variant="ghost"
                             onClick={() => close(false)}
-                            className="text-slate-400 hover:text-slate-100 hover:bg-slate-800"
+                            className="text-muted-foreground hover:text-foreground hover:bg-muted"
                         >
                             {opts?.cancelText ?? "Cancel"}
                         </Button>

@@ -136,14 +136,14 @@ export function CreateConsumerDialog({ streamName, onCreated, trigger }: CreateC
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[620px] bg-slate-950 border-slate-800 text-slate-100 max-h-[90vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-[620px] bg-background border-border text-foreground max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <Users className="size-5 text-amber-500" />
                         Create Consumer
-                        <span className="text-xs font-mono text-slate-500 ml-2">→ {streamName}</span>
+                        <span className="text-xs font-mono text-muted-foreground ml-2">→ {streamName}</span>
                     </DialogTitle>
-                    <DialogDescription className="text-slate-400">
+                    <DialogDescription className="text-muted-foreground">
                         Add a new JetStream consumer for this stream.
                     </DialogDescription>
                 </DialogHeader>
@@ -158,7 +158,7 @@ export function CreateConsumerDialog({ streamName, onCreated, trigger }: CreateC
                                     <FormItem>
                                         <FormLabel>Durable Name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="my-consumer" {...field} className="bg-slate-900 border-slate-800" />
+                                            <Input placeholder="my-consumer" {...field} className="bg-card border-border" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -172,11 +172,11 @@ export function CreateConsumerDialog({ streamName, onCreated, trigger }: CreateC
                                         <FormLabel>Mode</FormLabel>
                                         <Select onValueChange={field.onChange} value={field.value}>
                                             <FormControl>
-                                                <SelectTrigger className="bg-slate-900 border-slate-800">
+                                                <SelectTrigger className="bg-card border-border">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent className="bg-slate-900 border-slate-800">
+                                            <SelectContent className="bg-card border-border">
                                                 <SelectItem value="pull">Pull</SelectItem>
                                                 <SelectItem value="push">Push</SelectItem>
                                             </SelectContent>
@@ -201,7 +201,7 @@ export function CreateConsumerDialog({ streamName, onCreated, trigger }: CreateC
                                             <Input
                                                 placeholder="deliver.my-consumer"
                                                 {...field}
-                                                className="bg-slate-900 border-slate-800 font-mono"
+                                                className="bg-card border-border font-mono"
                                             />
                                         </FormControl>
                                         <FormDescription className="text-[10px]">
@@ -222,11 +222,11 @@ export function CreateConsumerDialog({ streamName, onCreated, trigger }: CreateC
                                         <FormLabel>Deliver Policy</FormLabel>
                                         <Select onValueChange={field.onChange} value={field.value}>
                                             <FormControl>
-                                                <SelectTrigger className="bg-slate-900 border-slate-800">
+                                                <SelectTrigger className="bg-card border-border">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent className="bg-slate-900 border-slate-800">
+                                            <SelectContent className="bg-card border-border">
                                                 <SelectItem value="all">All</SelectItem>
                                                 <SelectItem value="last">Last</SelectItem>
                                                 <SelectItem value="new">New</SelectItem>
@@ -245,11 +245,11 @@ export function CreateConsumerDialog({ streamName, onCreated, trigger }: CreateC
                                         <FormLabel>Ack Policy</FormLabel>
                                         <Select onValueChange={field.onChange} value={field.value}>
                                             <FormControl>
-                                                <SelectTrigger className="bg-slate-900 border-slate-800">
+                                                <SelectTrigger className="bg-card border-border">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent className="bg-slate-900 border-slate-800">
+                                            <SelectContent className="bg-card border-border">
                                                 <SelectItem value="explicit">Explicit</SelectItem>
                                                 <SelectItem value="all">All</SelectItem>
                                                 <SelectItem value="none">None</SelectItem>
@@ -274,7 +274,7 @@ export function CreateConsumerDialog({ streamName, onCreated, trigger }: CreateC
                                                 min={0}
                                                 {...field}
                                                 onChange={e => field.onChange(Number(e.target.value))}
-                                                className="bg-slate-900 border-slate-800"
+                                                className="bg-card border-border"
                                             />
                                         </FormControl>
                                         <FormDescription className="text-[10px]">
@@ -296,7 +296,7 @@ export function CreateConsumerDialog({ streamName, onCreated, trigger }: CreateC
                                                 min={-1}
                                                 {...field}
                                                 onChange={e => field.onChange(Number(e.target.value))}
-                                                className="bg-slate-900 border-slate-800"
+                                                className="bg-card border-border"
                                             />
                                         </FormControl>
                                         <FormDescription className="text-[10px]">-1 = unlimited.</FormDescription>
@@ -316,7 +316,7 @@ export function CreateConsumerDialog({ streamName, onCreated, trigger }: CreateC
                                         <Input
                                             placeholder="events.orders.*"
                                             {...field}
-                                            className="bg-slate-900 border-slate-800 font-mono"
+                                            className="bg-card border-border font-mono"
                                         />
                                     </FormControl>
                                     <FormDescription className="text-[10px]">
@@ -340,7 +340,7 @@ export function CreateConsumerDialog({ streamName, onCreated, trigger }: CreateC
                                 type="button"
                                 variant="ghost"
                                 onClick={() => setOpen(false)}
-                                className="text-slate-400 hover:text-slate-100 hover:bg-slate-800"
+                                className="text-muted-foreground hover:text-foreground hover:bg-muted"
                             >
                                 Cancel
                             </Button>

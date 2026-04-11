@@ -68,11 +68,11 @@ export default function OSPage() {
         <div className="flex flex-col gap-6 animate-in fade-in duration-500">
             <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-1">
-                    <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center gap-2">
+                    <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
                         <HardDrive className="size-6 text-cyan-500" />
                         Object Stores
                     </h1>
-                    <p className="text-slate-400">
+                    <p className="text-muted-foreground">
                         Manage your object store buckets and browse stored files.
                     </p>
                 </div>
@@ -97,10 +97,10 @@ export default function OSPage() {
                 <div className="space-y-4">
                     <div className="flex items-center justify-between gap-4">
                         <div className="relative flex-1 max-w-sm">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search buckets..."
-                                className="pl-9 bg-slate-900 border-slate-800 focus:border-cyan-500"
+                                className="pl-9 bg-card border-border focus:border-cyan-500"
                                 value={filter}
                                 onChange={(e) => setFilter(e.target.value)}
                             />
@@ -110,7 +110,7 @@ export default function OSPage() {
                             size="icon"
                             onClick={fetchBuckets}
                             disabled={isLoading}
-                            className="bg-slate-900 border-slate-800 hover:bg-slate-800 hover:text-cyan-400"
+                            className="bg-card border-border hover:bg-muted hover:text-cyan-400"
                         >
                             <RefreshCcw className={isLoading ? "size-4 animate-spin" : "size-4"} />
                         </Button>
@@ -127,10 +127,10 @@ export default function OSPage() {
                             ))}
                         </div>
                     ) : (
-                        <div className="flex flex-col items-center justify-center py-24 text-center border-2 border-dashed border-slate-800 rounded-xl bg-slate-900/20">
-                            <HardDrive className="size-12 text-slate-700 mb-4" />
-                            <h3 className="text-lg font-medium text-slate-400">No buckets found</h3>
-                            <p className="text-sm text-slate-600 mt-2 max-w-sm">
+                        <div className="flex flex-col items-center justify-center py-24 text-center border-2 border-dashed border-border rounded-xl bg-card/20">
+                            <HardDrive className="size-12 text-muted-foreground/50 mb-4" />
+                            <h3 className="text-lg font-medium text-muted-foreground">No buckets found</h3>
+                            <p className="text-sm text-muted-foreground/70 mt-2 max-w-sm">
                                 Create your first Object Store bucket to start storing binary files.
                             </p>
                         </div>

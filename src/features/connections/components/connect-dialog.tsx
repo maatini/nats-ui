@@ -140,10 +140,10 @@ export function ConnectDialog({ trigger, editingConfig, onOpenChange }: ConnectD
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-950 border-slate-800 text-slate-100">
+            <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
                 <DialogHeader>
                     <DialogTitle>{editingConfig ? "Edit Connection" : "New Connection"}</DialogTitle>
-                    <DialogDescription className="text-slate-400">
+                    <DialogDescription className="text-muted-foreground">
                         Enter the details for your NATS server.
                     </DialogDescription>
                 </DialogHeader>
@@ -156,7 +156,7 @@ export function ConnectDialog({ trigger, editingConfig, onOpenChange }: ConnectD
                                 <FormItem>
                                     <FormLabel>Connection Name</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Local NATS" {...field} className="bg-slate-900 border-slate-800 focus:border-indigo-500" />
+                                        <Input placeholder="Local NATS" {...field} className="bg-card border-border focus:border-indigo-500" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -169,9 +169,9 @@ export function ConnectDialog({ trigger, editingConfig, onOpenChange }: ConnectD
                                 <FormItem>
                                     <FormLabel>Servers</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="nats://localhost:4222, nats://localhost:4223" {...field} className="bg-slate-900 border-slate-800 focus:border-indigo-500" />
+                                        <Input placeholder="nats://localhost:4222, nats://localhost:4223" {...field} className="bg-card border-border focus:border-indigo-500" />
                                     </FormControl>
-                                    <FormDescription className="text-[10px] text-slate-500">Comma-separated URLs</FormDescription>
+                                    <FormDescription className="text-[10px] text-muted-foreground">Comma-separated URLs</FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -184,11 +184,11 @@ export function ConnectDialog({ trigger, editingConfig, onOpenChange }: ConnectD
                                     <FormLabel>Authentication</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
-                                            <SelectTrigger className="bg-slate-900 border-slate-800 focus:ring-indigo-500 text-slate-200">
+                                            <SelectTrigger className="bg-card border-border focus:ring-indigo-500 text-foreground">
                                                 <SelectValue placeholder="Select auth type" />
                                             </SelectTrigger>
                                         </FormControl>
-                                        <SelectContent className="bg-slate-900 border-slate-800 text-slate-200">
+                                        <SelectContent className="bg-card border-border text-foreground">
                                             <SelectItem value="none">None</SelectItem>
                                             <SelectItem value="user_pass">Username / Password</SelectItem>
                                             <SelectItem value="token">Token</SelectItem>
@@ -208,7 +208,7 @@ export function ConnectDialog({ trigger, editingConfig, onOpenChange }: ConnectD
                                         <FormItem>
                                             <FormLabel>Username</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="user" {...field} className="bg-slate-900 border-slate-800" />
+                                                <Input placeholder="user" {...field} className="bg-card border-border" />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -221,7 +221,7 @@ export function ConnectDialog({ trigger, editingConfig, onOpenChange }: ConnectD
                                         <FormItem>
                                             <FormLabel>Password</FormLabel>
                                             <FormControl>
-                                                <Input type="password" placeholder="••••••••" {...field} className="bg-slate-900 border-slate-800" />
+                                                <Input type="password" placeholder="••••••••" {...field} className="bg-card border-border" />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -238,7 +238,7 @@ export function ConnectDialog({ trigger, editingConfig, onOpenChange }: ConnectD
                                     <FormItem className="animate-in slide-in-from-top-2 duration-200">
                                         <FormLabel>Token</FormLabel>
                                         <FormControl>
-                                            <Input type="password" placeholder="secret-token" {...field} className="bg-slate-900 border-slate-800" />
+                                            <Input type="password" placeholder="secret-token" {...field} className="bg-card border-border" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -252,7 +252,7 @@ export function ConnectDialog({ trigger, editingConfig, onOpenChange }: ConnectD
                                 variant="secondary"
                                 onClick={onTest}
                                 disabled={isTesting}
-                                className="bg-slate-800 text-slate-200 hover:bg-slate-700"
+                                className="bg-muted text-foreground hover:bg-muted"
                             >
                                 {isTesting ? (
                                     <Loader2 className="mr-2 size-4 animate-spin" />

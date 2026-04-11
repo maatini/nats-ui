@@ -80,7 +80,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 </div>
                                 <div className="flex flex-col gap-0.5 leading-none">
                                     <span className="font-semibold text-indigo-400">Cobra NATS</span>
-                                    <span className="text-xs text-slate-500">v0.1.0</span>
+                                    <span className="text-xs text-muted-foreground">v0.1.0</span>
                                 </div>
                             </Link>
                         </SidebarMenuButton>
@@ -100,7 +100,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                         "transition-colors",
                                         isActive
                                             ? "bg-indigo-600/10 text-indigo-400 hover:bg-indigo-600/20 hover:text-indigo-300"
-                                            : "text-slate-400 hover:bg-slate-800 hover:text-slate-100"
+                                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                     )}
                                 >
                                     <Link href={item.url}>
@@ -118,7 +118,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarMenuItem>
                         <ConnectDialog
                             trigger={
-                                <SidebarMenuButton className="text-slate-400 hover:text-indigo-400">
+                                <SidebarMenuButton className="text-muted-foreground hover:text-indigo-400">
                                     <Plus className="size-4" />
                                     <span>New Connection</span>
                                 </SidebarMenuButton>

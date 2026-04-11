@@ -12,7 +12,7 @@ export default function DashboardLayout({
     return (
         <SidebarProvider defaultOpen={true}>
             <AppSidebar />
-            <SidebarInset className="flex flex-col bg-slate-950">
+            <SidebarInset className="flex flex-col bg-background">
                 <Topbar />
                 <main className="flex-1 overflow-auto p-4 lg:p-6 pb-20 lg:pb-6">
                     {children}

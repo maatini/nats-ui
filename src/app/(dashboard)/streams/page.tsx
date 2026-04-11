@@ -75,11 +75,11 @@ export default function StreamsPage() {
         <div className="flex flex-col gap-6 animate-in fade-in duration-500">
             <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-1">
-                    <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center gap-2">
+                    <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
                         <Layers className="size-6 text-amber-500" />
                         JetStream Streams
                     </h1>
-                    <p className="text-slate-400">
+                    <p className="text-muted-foreground">
                         Manage your persistent message streams and configurations.
                     </p>
                 </div>

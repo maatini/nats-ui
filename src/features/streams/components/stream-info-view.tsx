@@ -18,20 +18,20 @@ import { format } from "date-fns";
 
 export function StreamInfoView({ info }: { info: StreamInfo }) {
     const renderValue = (label: string, value: string | number, icon: React.ReactNode) => (
-        <div className="flex items-center justify-between py-2 border-b border-slate-800 last:border-0">
-            <div className="flex items-center gap-2 text-slate-400 text-xs">
+        <div className="flex items-center justify-between py-2 border-b border-border last:border-0">
+            <div className="flex items-center gap-2 text-muted-foreground text-xs">
                 {icon}
                 <span>{label}</span>
             </div>
-            <div className="text-slate-200 text-xs font-medium tabular-nums">
-                {value === -1 || value === 0 ? <span className="text-slate-600">Infinite</span> : value}
+            <div className="text-foreground text-xs font-medium tabular-nums">
+                {value === -1 || value === 0 ? <span className="text-muted-foreground/70">Infinite</span> : value}
             </div>
         </div>
     );
 
     return (
         <div className="grid gap-6 md:grid-cols-2">
-            <Card className="bg-slate-900 border-slate-800">
+            <Card className="bg-card border-border">
                 <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-semibold flex items-center gap-2 text-indigo-400">
                         <Settings className="size-4" />
@@ -46,10 +46,10 @@ export function StreamInfoView({ info }: { info: StreamInfo }) {
                     {renderValue("Max Age", info.config.max_age === 0 ? 0 : `${(info.config.max_age / 1e9 / 3600).toFixed(1)} hours`, <Clock className="size-3" />)}
                     {renderValue("Replicas", info.config.num_replicas, <Zap className="size-3" />)}
                     <div className="pt-4">
-                        <div className="text-[10px] text-slate-500 uppercase font-bold mb-2">Subjects</div>
+                        <div className="text-[10px] text-muted-foreground uppercase font-bold mb-2">Subjects</div>
                         <div className="flex flex-wrap gap-2">
                             {info.config.subjects?.map(s => (
-                                <Badge key={s} variant="secondary" className="bg-slate-800 text-indigo-400 border-slate-700">
+                                <Badge key={s} variant="secondary" className="bg-muted text-indigo-400 border-border">
                                     {s}
                                 </Badge>
                             ))}
@@ -58,7 +58,7 @@ export function StreamInfoView({ info }: { info: StreamInfo }) {
                 </CardContent>
             </Card>
 
-            <Card className="bg-slate-900 border-slate-800">
+            <Card className="bg-card border-border">
                 <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-semibold flex items-center gap-2 text-emerald-400">
                         <Activity className="size-4" />
@@ -72,8 +72,8 @@ export function StreamInfoView({ info }: { info: StreamInfo }) {
                     {renderValue("Last Sequence", info.state.last_seq, <Info className="size-3" />)}
                     {renderValue("Consumers", info.state.consumer_count, <Zap className="size-3" />)}
                     <div className="pt-4">
-                        <div className="text-[10px] text-slate-500 uppercase font-bold mb-2">Metadata</div>
-                        <div className="text-xs text-slate-400">
+                        <div className="text-[10px] text-muted-foreground uppercase font-bold mb-2">Metadata</div>
+                        <div className="text-xs text-muted-foreground">
                             Created: {format(new Date(info.created), "PPP p")}
                         </div>
                     </div>

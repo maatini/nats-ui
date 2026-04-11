@@ -124,7 +124,7 @@ export default function OSDetailPage() {
 
     if (!activeConnection) {
         return (
-            <div className="p-8 text-center text-slate-500">
+            <div className="p-8 text-center text-muted-foreground">
                 No active connection
             </div>
         );
@@ -139,7 +139,7 @@ export default function OSDetailPage() {
                         variant="ghost"
                         size="icon"
                         asChild
-                        className="text-slate-400 hover:text-slate-100"
+                        className="text-muted-foreground hover:text-foreground"
                     >
                         <Link href="/os">
                             <ChevronLeft className="size-5" />
@@ -147,7 +147,7 @@ export default function OSDetailPage() {
                     </Button>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
-                            <h1 className="text-2xl font-bold tracking-tight text-slate-100">
+                            <h1 className="text-2xl font-bold tracking-tight text-foreground">
                                 {bucket}
                             </h1>
                             <Badge
@@ -169,7 +169,7 @@ export default function OSDetailPage() {
                         variant="outline"
                         size="sm"
                         onClick={fetchObjects}
-                        className="bg-slate-900 border-slate-800 text-slate-300"
+                        className="bg-card border-border text-foreground/80"
                     >
                         <RefreshCcw
                             className={`size-4 mr-2 ${isLoading ? "animate-spin" : ""}`}

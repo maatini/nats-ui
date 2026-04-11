@@ -38,10 +38,10 @@ export function ObjectList({ objects, onDownload, onDelete }: ObjectListProps) {
 
     if (objects.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-24 text-center border-2 border-dashed border-slate-800 rounded-xl bg-slate-900/20">
-                <FileIcon className="size-12 text-slate-700 mb-4" />
-                <h3 className="text-lg font-medium text-slate-400">No objects found</h3>
-                <p className="text-sm text-slate-600 mt-2 max-w-sm">
+            <div className="flex flex-col items-center justify-center py-24 text-center border-2 border-dashed border-border rounded-xl bg-card/20">
+                <FileIcon className="size-12 text-muted-foreground/50 mb-4" />
+                <h3 className="text-lg font-medium text-muted-foreground">No objects found</h3>
+                <p className="text-sm text-muted-foreground/70 mt-2 max-w-sm">
                     Upload your first object to start storing files in this bucket.
                 </p>
             </div>
@@ -49,38 +49,38 @@ export function ObjectList({ objects, onDownload, onDelete }: ObjectListProps) {
     }
 
     return (
-        <div className="rounded-md border border-slate-800 bg-slate-900/50 overflow-hidden">
+        <div className="rounded-md border border-border bg-card/50 overflow-hidden">
             <Table>
-                <TableHeader className="bg-slate-900">
-                    <TableRow className="border-slate-800 hover:bg-transparent">
-                        <TableHead className="text-slate-400 font-medium text-xs">Name</TableHead>
-                        <TableHead className="text-slate-400 font-medium text-xs text-right">Size</TableHead>
-                        <TableHead className="text-slate-400 font-medium text-xs text-right">Chunks</TableHead>
-                        <TableHead className="text-slate-400 font-medium text-xs">Digest</TableHead>
-                        <TableHead className="text-slate-400 font-medium text-xs text-right">Actions</TableHead>
+                <TableHeader className="bg-card">
+                    <TableRow className="border-border hover:bg-transparent">
+                        <TableHead className="text-muted-foreground font-medium text-xs">Name</TableHead>
+                        <TableHead className="text-muted-foreground font-medium text-xs text-right">Size</TableHead>
+                        <TableHead className="text-muted-foreground font-medium text-xs text-right">Chunks</TableHead>
+                        <TableHead className="text-muted-foreground font-medium text-xs">Digest</TableHead>
+                        <TableHead className="text-muted-foreground font-medium text-xs text-right">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {objects.map((obj) => (
-                        <TableRow key={obj.name} className="border-slate-800/50 hover:bg-slate-800/50 transition-colors">
+                        <TableRow key={obj.name} className="border-border/50 hover:bg-muted/50 transition-colors">
                             <TableCell className="py-2.5 px-4">
                                 <div className="flex items-center gap-2">
                                     <FileIcon className="size-3.5 text-cyan-500/60" />
-                                    <span className="font-mono text-xs text-slate-300">{obj.name}</span>
+                                    <span className="font-mono text-xs text-foreground/80">{obj.name}</span>
                                 </div>
                             </TableCell>
                             <TableCell className="py-2.5 px-4 text-right">
-                                <span className="text-xs text-slate-400 tabular-nums">{formatBytes(obj.size)}</span>
+                                <span className="text-xs text-muted-foreground tabular-nums">{formatBytes(obj.size)}</span>
                             </TableCell>
                             <TableCell className="py-2.5 px-4 text-right">
-                                <Badge variant="outline" className="text-[9px] border-slate-800 bg-slate-950 tabular-nums">
+                                <Badge variant="outline" className="text-[9px] border-border bg-background tabular-nums">
                                     {obj.chunks}
                                 </Badge>
                             </TableCell>
                             <TableCell className="py-2.5 px-4">
                                 <button
                                     onClick={() => handleCopyDigest(obj.digest)}
-                                    className="text-[10px] font-mono text-slate-600 hover:text-cyan-400 transition-colors flex items-center gap-1 cursor-pointer"
+                                    className="text-[10px] font-mono text-muted-foreground/70 hover:text-cyan-400 transition-colors flex items-center gap-1 cursor-pointer"
                                     title="Click to copy digest"
                                 >
                                     {obj.digest.substring(0, 24)}…
@@ -92,7 +92,7 @@ export function ObjectList({ objects, onDownload, onDelete }: ObjectListProps) {
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-7 w-7 text-slate-500 hover:text-cyan-400"
+                                        className="h-7 w-7 text-muted-foreground hover:text-cyan-400"
                                         onClick={() => onDownload(obj.name)}
                                         title="Download"
                                     >
@@ -101,7 +101,7 @@ export function ObjectList({ objects, onDownload, onDelete }: ObjectListProps) {
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-7 w-7 text-slate-500 hover:text-rose-400"
+                                        className="h-7 w-7 text-muted-foreground hover:text-rose-400"
                                         onClick={() => onDelete(obj.name)}
                                         title="Delete"
                                     >

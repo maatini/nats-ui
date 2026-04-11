@@ -100,13 +100,13 @@ export function CreateKVDialog({ onCreated }: CreateKVDialogProps) {
                     Create KV Bucket
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-950 border-slate-800 text-slate-100">
+            <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <Database className="size-5 text-emerald-500" />
                         Create New KV Bucket
                     </DialogTitle>
-                    <DialogDescription className="text-slate-400">
+                    <DialogDescription className="text-muted-foreground">
                         A KeyValue bucket provides a simple key-value store backed by JetStream.
                     </DialogDescription>
                 </DialogHeader>
@@ -120,7 +120,7 @@ export function CreateKVDialog({ onCreated }: CreateKVDialogProps) {
                                 <FormItem>
                                     <FormLabel>Bucket Name</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="settings" {...field} className="bg-slate-900 border-slate-800" />
+                                        <Input placeholder="settings" {...field} className="bg-card border-border" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -133,7 +133,7 @@ export function CreateKVDialog({ onCreated }: CreateKVDialogProps) {
                                 <FormItem>
                                     <FormLabel>Description</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Application settings" {...field} className="bg-slate-900 border-slate-800" />
+                                        <Input placeholder="Application settings" {...field} className="bg-card border-border" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -147,7 +147,7 @@ export function CreateKVDialog({ onCreated }: CreateKVDialogProps) {
                                     <FormItem>
                                         <FormLabel>History (Revisions)</FormLabel>
                                         <FormControl>
-                                            <Input type="number" {...field} className="bg-slate-900 border-slate-800" />
+                                            <Input type="number" {...field} className="bg-card border-border" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -160,7 +160,7 @@ export function CreateKVDialog({ onCreated }: CreateKVDialogProps) {
                                     <FormItem>
                                         <FormLabel>Replicas</FormLabel>
                                         <FormControl>
-                                            <Input type="number" {...field} className="bg-slate-900 border-slate-800" />
+                                            <Input type="number" {...field} className="bg-card border-border" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

@@ -135,13 +135,13 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                     Create Stream
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] bg-slate-950 border-slate-800 text-slate-100 max-h-[90vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-[600px] bg-background border-border text-foreground max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <Layers className="size-5 text-amber-500" />
                         Create New Stream
                     </DialogTitle>
-                    <DialogDescription className="text-slate-400">
+                    <DialogDescription className="text-muted-foreground">
                         Configure a new JetStream stream for message persistence.
                     </DialogDescription>
                 </DialogHeader>
@@ -156,7 +156,7 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                     <FormItem>
                                         <FormLabel>Stream Name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="MY_STREAM" {...field} className="bg-slate-900 border-slate-800" />
+                                            <Input placeholder="MY_STREAM" {...field} className="bg-card border-border" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -169,7 +169,7 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                     <FormItem>
                                         <FormLabel>Subjects</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="events.>" {...field} className="bg-slate-900 border-slate-800" />
+                                            <Input placeholder="events.>" {...field} className="bg-card border-border" />
                                         </FormControl>
                                         <FormDescription className="text-[10px]">Comma-separated subjects</FormDescription>
                                         <FormMessage />
@@ -187,11 +187,11 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                         <FormLabel>Storage Type</FormLabel>
                                         <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
                                             <FormControl>
-                                                <SelectTrigger className="bg-slate-900 border-slate-800">
+                                                <SelectTrigger className="bg-card border-border">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent className="bg-slate-900 border-slate-800">
+                                            <SelectContent className="bg-card border-border">
                                                 <SelectItem value={StorageType.File}>File</SelectItem>
                                                 <SelectItem value={StorageType.Memory}>Memory</SelectItem>
                                             </SelectContent>
@@ -208,11 +208,11 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                         <FormLabel>Retention Policy</FormLabel>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
-                                                <SelectTrigger className="bg-slate-900 border-slate-800">
+                                                <SelectTrigger className="bg-card border-border">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent className="bg-slate-900 border-slate-800">
+                                            <SelectContent className="bg-card border-border">
                                                 <SelectItem value={RetentionPolicy.Limits}>Limits</SelectItem>
                                                 <SelectItem value={RetentionPolicy.Interest}>Interest</SelectItem>
                                                 <SelectItem value={RetentionPolicy.Workqueue}>Work Queue</SelectItem>
@@ -232,7 +232,7 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                     <FormItem>
                                         <FormLabel>Max Messages</FormLabel>
                                         <FormControl>
-                                            <Input type="number" {...field} className="bg-slate-900 border-slate-800" />
+                                            <Input type="number" {...field} className="bg-card border-border" />
                                         </FormControl>
                                         <FormDescription className="text-[10px]">-1 for infinite</FormDescription>
                                         <FormMessage />
@@ -246,7 +246,7 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                     <FormItem>
                                         <FormLabel>Max Bytes</FormLabel>
                                         <FormControl>
-                                            <Input type="number" {...field} className="bg-slate-900 border-slate-800" />
+                                            <Input type="number" {...field} className="bg-card border-border" />
                                         </FormControl>
                                         <FormDescription className="text-[10px]">-1 for infinite</FormDescription>
                                         <FormMessage />
@@ -260,7 +260,7 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                     <FormItem>
                                         <FormLabel>Replicas</FormLabel>
                                         <FormControl>
-                                            <Input type="number" {...field} className="bg-slate-900 border-slate-800" />
+                                            <Input type="number" {...field} className="bg-card border-border" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -281,7 +281,7 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                                 min={0}
                                                 {...field}
                                                 onChange={e => field.onChange(Number(e.target.value))}
-                                                className="bg-slate-900 border-slate-800"
+                                                className="bg-card border-border"
                                             />
                                         </FormControl>
                                         <FormDescription className="text-[10px]">0 = infinite retention</FormDescription>
@@ -300,11 +300,11 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                             value={field.value}
                                         >
                                             <FormControl>
-                                                <SelectTrigger className="bg-slate-900 border-slate-800">
+                                                <SelectTrigger className="bg-card border-border">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent className="bg-slate-900 border-slate-800">
+                                            <SelectContent className="bg-card border-border">
                                                 {(Object.keys(MAX_AGE_UNITS) as MaxAgeUnit[]).map(u => (
                                                     <SelectItem key={u} value={u}>
                                                         {MAX_AGE_UNITS[u].label}
@@ -331,7 +331,7 @@ export function CreateStreamDialog({ onCreated }: CreateStreamDialogProps) {
                                 type="button"
                                 variant="ghost"
                                 onClick={() => setOpen(false)}
-                                className="text-slate-400 hover:text-slate-100 hover:bg-slate-800"
+                                className="text-muted-foreground hover:text-foreground hover:bg-muted"
                             >
                                 Cancel
                             </Button>

@@ -76,13 +76,13 @@ export function UploadObjectDialog({ bucket, onUploaded }: UploadObjectDialogPro
                     Upload
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-slate-950 border-slate-800 text-slate-100">
+            <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <FileUp className="size-5 text-cyan-500" />
                         Upload Object
                     </DialogTitle>
-                    <DialogDescription className="text-slate-400">
+                    <DialogDescription className="text-muted-foreground">
                         Upload a file to the <span className="font-mono text-cyan-400">{bucket}</span> bucket.
                     </DialogDescription>
                 </DialogHeader>
@@ -93,7 +93,7 @@ export function UploadObjectDialog({ bucket, onUploaded }: UploadObjectDialogPro
                         <Input
                             id="file"
                             type="file"
-                            className="bg-slate-900 border-slate-800 file:text-slate-300 file:bg-slate-800 file:border-0 file:px-3 file:py-1 file:mr-3 file:rounded-md cursor-pointer"
+                            className="bg-card border-border file:text-foreground/80 file:bg-muted file:border-0 file:px-3 file:py-1 file:mr-3 file:rounded-md cursor-pointer"
                             onChange={(e) => {
                                 const file = e.target.files?.[0] ?? null;
                                 setSelectedFile(file);
@@ -109,9 +109,9 @@ export function UploadObjectDialog({ bucket, onUploaded }: UploadObjectDialogPro
                             placeholder="my-file.txt"
                             value={objectName}
                             onChange={(e) => setObjectName(e.target.value)}
-                            className="bg-slate-900 border-slate-800"
+                            className="bg-card border-border"
                         />
-                        <p className="text-[10px] text-slate-500">
+                        <p className="text-[10px] text-muted-foreground">
                             Defaults to the file name if left empty.
                         </p>
                     </div>
