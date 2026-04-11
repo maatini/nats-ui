@@ -8,19 +8,23 @@
 ```
 src/
 ├── app/                    # Next.js Routing + Layouts. Nichts anderes hier rein!
-│   ├── (dashboard)/        # Alle User-Seiten (streams, kv, os, publish, monitor, settings)
+│   ├── (dashboard)/        # Alle User-Seiten (/, streams, kv, os, publish, monitor, settings)
 │   └── api/monitor/        # Einziger REST-Endpoint (SSE für Live-Monitor)
 │
 ├── features/               # Domain-Module — ALLES zu einem Feature an EINEM Ort
 │   ├── connections/        # NATS-Verbindungs-Store, Hook, Actions, Connect-Dialog
+│   ├── dashboard/          # Dashboard-Overview (nur Komponente, keine Actions)
 │   ├── streams/            # Streams + Consumers + Stats (actions.ts ist konsolidiert)
 │   ├── kv/                 # Key-Value Buckets
 │   ├── os/                 # Object Store Buckets + Upload/Download
-│   └── publish/            # Publish + Request-Reply Actions
+│   ├── publish/            # Publish + Request-Reply Actions
+│   └── monitor/            # Live-Subject-Monitor (stream.ts statt actions.ts, nutzt SSE)
 │
 ├── components/
 │   ├── ui/                 # shadcn primitives — NIE direkt editieren, per `shadcn add`
-│   ├── layout/             # app-weite Layout-Komponenten (Sidebar, Topbar)
+│   ├── layout/             # app-sidebar, topbar, theme-toggle, auto-breadcrumbs,
+│   │                       # command-palette, global-shortcuts, help-dialog,
+│   │                       # no-connection-banner
 │   └── providers/          # Root-Provider, Confirm-Provider
 │
 ├── lib/
@@ -28,7 +32,12 @@ src/
 │   ├── server-action.ts    # withNatsConnection / withJetStream / ActionResponse
 │   └── utils.ts            # cn() und generische Helpers
 │
-├── hooks/use-mobile.ts     # Nur app-weite Hooks
+├── hooks/                  # App-weite Hooks
+│   ├── use-mobile.ts
+│   ├── use-keyboard-shortcuts.ts
+│   ├── use-local-storage.ts
+│   ├── use-auto-refresh.ts
+│   └── use-url-state.ts
 └── types/nats.ts           # Alle geteilten Domain-Types (NatsConnectionConfig, StreamMessage, ...)
 ```
 

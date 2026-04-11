@@ -27,19 +27,22 @@ Der Client **ruft niemals NATS direkt** auf. Er importiert Server Actions; Next.
 | Pfad | Rolle | Wer bearbeitet? |
 |---|---|---|
 | `src/app/(dashboard)/<route>/page.tsx` | User-Seiten | `@nextjs-frontend-agent` |
-| `src/app/(dashboard)/layout.tsx` | Dashboard-Layout (Sidebar + Topbar) | `@nextjs-frontend-agent` |
+| `src/app/(dashboard)/layout.tsx` | Dashboard-Layout (Sidebar + Topbar + Breadcrumbs + Command Palette) | `@nextjs-frontend-agent` |
 | `src/app/api/monitor/route.ts` | SSE-Endpoint für Live-Subject-Monitor (einziger REST-Endpoint) | `@server-actions-agent` |
 | `src/features/<domain>/actions.ts` | Alle Server Actions des Features | `@server-actions-agent` |
 | `src/features/<domain>/components/*.tsx` | Feature-spezifische UI | `@nextjs-frontend-agent` / `@ui-shadcn-agent` |
 | `src/features/connections/store.ts` | Zustand-Store für Connections (persist) | `@nextjs-frontend-agent` |
 | `src/features/connections/hooks.ts` | `useActiveConnection()` | `@nextjs-frontend-agent` |
+| `src/features/dashboard/dashboard-overview.tsx` | Startseite — reine Aggregation, keine eigenen Actions | `@nextjs-frontend-agent` |
+| `src/features/monitor/monitor-view.tsx` + `stream.ts` | Live-Monitor: `stream.ts` kapselt den SSE-Client (nicht `actions.ts`!) | `@nextjs-frontend-agent` / `@server-actions-agent` |
 | `src/components/ui/*` | shadcn Primitives — nur via `shadcn add` | – |
-| `src/components/layout/*` | App-weite Sidebar/Topbar | `@nextjs-frontend-agent` |
+| `src/components/layout/*` | app-sidebar, topbar, theme-toggle, auto-breadcrumbs, command-palette, global-shortcuts, help-dialog, no-connection-banner | `@nextjs-frontend-agent` |
 | `src/components/providers/*` | Root-Provider + Confirm-Dialog-Provider | `@nextjs-frontend-agent` |
+| `src/hooks/*` | App-weite Hooks: `use-mobile`, `use-keyboard-shortcuts`, `use-local-storage`, `use-auto-refresh`, `use-url-state` | `@nextjs-frontend-agent` |
 | `src/lib/nats/manager.ts` | Singleton `NatsManager` — Connection-Pool | `@nats-jetstream-expert` |
 | `src/lib/server-action.ts` | `withNatsConnection`, `withJetStream`, `ActionResponse<T>` | `@server-actions-agent` |
 | `src/types/nats.ts` | Alle geteilten Domain-Types + Enums | `@nats-jetstream-expert` |
-| `tests/*.spec.ts` | Playwright E2E | `@playwright-testing-agent` |
+| `tests/*.spec.ts` | Playwright E2E (flach, inkl. `functional-*.spec.ts`) | `@playwright-testing-agent` |
 
 ## Blaupause: Neues Feature hinzufügen
 
@@ -103,3 +106,7 @@ Landet automatisch in `src/components/ui/`. **Nicht manuell** editieren — bei 
 | Sidebar-Navigation | `src/components/layout/app-sidebar.tsx` |
 | Confirm-Dialog öffnen | `useConfirm()` aus `@/components/providers/confirm-provider` |
 | Toast | `toast()` aus `sonner` (Provider in `root-provider.tsx`) |
+| Keyboard-Shortcut registrieren | `useKeyboardShortcuts()` aus `@/hooks/use-keyboard-shortcuts` oder global in `components/layout/global-shortcuts.tsx` |
+| Auto-Refresh einer Liste | `useAutoRefresh()` aus `@/hooks/use-auto-refresh` + `<AutoRefreshSelect />` |
+| Filter/Selection in URL halten | `useUrlState()` aus `@/hooks/use-url-state` |
+| Command-Palette-Eintrag | `src/components/layout/command-palette.tsx` erweitern |

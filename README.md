@@ -8,7 +8,7 @@
 [![Devbox](https://img.shields.io/badge/Devbox-reproducible_env-7C3AED?logo=nixos&logoColor=white)](https://www.jetpack.io/devbox/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> **v0.2.0** — A modern, professional management UI for NATS and JetStream.
+> **v0.5.0** — A modern, professional management UI for NATS and JetStream.
 
 ![Cobra NATS](./cobra_nats.png)
 
@@ -65,11 +65,20 @@ Cobra NATS is a web-based administration dashboard for [NATS](https://nats.io), 
 
 ### 👥 Consumer Management
 - **List** all consumers on a JetStream stream
-- **Create** new push/pull consumers
+- **Create** new push/pull consumers via dialog
 - **Delete** consumers
+- **Browse** messages on a stream (message browser with payload/header inspection)
+
+### ⚡ Productivity
+- **Command Palette** (`Cmd/Ctrl+K`) — quick navigation across all features
+- **Global Keyboard Shortcuts** with an in-app help dialog (`?`)
+- **Auto-Breadcrumbs** derived from the current route
+- **Auto-Refresh** selector on list views (configurable intervals)
+- **URL-synced state** for filters and selections (deep-linkable views)
+- **No-Connection Banner** when no active NATS connection is set
 
 ### 🎨 Settings & Theming
-- **Dark/Light Mode** toggle
+- **Dark/Light Mode** toggle with semantic color tokens
 - Preferences and connection settings via a dedicated screen
 
 ---
@@ -173,40 +182,54 @@ Cobra NATS is purely client-side for connection configuration. All settings are 
 
 ## 🏗️ Architecture & Tech Stack
 
+The project follows a **feature-based architecture**: every domain owns its UI, Server Actions, store, and feature-local components in a single folder under `src/features/`.
+
 ```
 cobra-nats/
 ├── src/
-│   ├── app/
-│   │   ├── (dashboard)/       # All UI pages
-│   │   │   ├── page.tsx       # Dashboard
-│   │   │   ├── streams/       # JetStream Stream management
-│   │   │   ├── kv/            # Key-Value Store management
-│   │   │   ├── os/            # Object Store management
-│   │   │   ├── publish/       # Message publishing
-│   │   │   ├── monitor/       # Live traffic monitor
-│   │   │   └── settings/      # Application settings
-│   │   ├── actions/           # Next.js Server Actions (NATS client)
-│   │   │   ├── action-helpers.ts     # withNatsConnection / withJetStream wrappers
-│   │   │   ├── nats-actions.ts       # Core NATS connection actions
-│   │   │   ├── stream-actions.ts
-│   │   │   ├── stream-consumer-stats.ts
-│   │   │   ├── consumer-actions.ts
-│   │   │   ├── kv-actions.ts
-│   │   │   ├── os-actions.ts         # Object Store CRUD, upload, download
-│   │   │   └── publish-actions.ts
-│   │   └── api/
-│   │       └── monitor/route.ts      # SSE endpoint for live monitoring
-│   ├── components/            # UI components (shadcn/ui based)
-│   │   ├── connections/       # Connection management dialogs
-│   │   ├── kv/                # KV bucket & entry components
-│   │   ├── os/                # Object Store dialogs & tables
-│   │   ├── streams/           # Stream & consumer components
-│   │   ├── layout/            # Sidebar, header, nav
-│   │   ├── providers/         # Theme & query providers
-│   │   └── ui/                # Base shadcn/ui primitives
-│   ├── lib/nats/              # NATS connection management & types
-│   └── store/useNatsStore.ts  # Zustand global state
-├── tests/                     # Playwright E2E tests
+│   ├── app/                         # Next.js routing & layouts only
+│   │   ├── (dashboard)/             # All UI pages
+│   │   │   ├── page.tsx             # Dashboard overview
+│   │   │   ├── streams/             # Stream list + detail
+│   │   │   ├── kv/                  # KV bucket list + detail
+│   │   │   ├── os/                  # Object Store list + detail
+│   │   │   ├── publish/             # Publish / Request-Reply
+│   │   │   ├── monitor/             # Live traffic monitor
+│   │   │   └── settings/            # Application settings
+│   │   └── api/monitor/route.ts     # SSE endpoint (only REST route)
+│   │
+│   ├── features/                    # Domain modules — everything per feature
+│   │   ├── connections/             # Zustand store, hook, actions, connect dialog
+│   │   ├── dashboard/               # Dashboard overview component
+│   │   ├── streams/                 # Streams + consumers + message browser
+│   │   ├── kv/                      # KV bucket actions & UI
+│   │   ├── os/                      # Object Store actions & UI
+│   │   ├── publish/                 # Publish & request-reply actions & UI
+│   │   └── monitor/                 # Live monitor view + SSE client (stream.ts)
+│   │
+│   ├── components/
+│   │   ├── ui/                      # shadcn/ui primitives (never edit directly)
+│   │   ├── layout/                  # app-sidebar, topbar, theme-toggle,
+│   │   │                            # auto-breadcrumbs, command-palette,
+│   │   │                            # global-shortcuts, help-dialog,
+│   │   │                            # no-connection-banner
+│   │   └── providers/               # Root & confirm-dialog providers
+│   │
+│   ├── lib/
+│   │   ├── nats/manager.ts          # Singleton NatsManager (connection pool)
+│   │   ├── server-action.ts         # withNatsConnection / withJetStream / ActionResponse
+│   │   └── utils.ts
+│   │
+│   ├── hooks/                       # App-wide hooks
+│   │   ├── use-mobile.ts
+│   │   ├── use-keyboard-shortcuts.ts
+│   │   ├── use-local-storage.ts
+│   │   ├── use-auto-refresh.ts
+│   │   └── use-url-state.ts
+│   │
+│   └── types/nats.ts                # Shared domain types & enums
+│
+├── tests/                           # Playwright E2E (flat, incl. functional-*)
 ├── docker-compose.yml
 └── devbox.json
 ```
@@ -227,7 +250,7 @@ cobra-nats/
 
 ### Server Action Pattern
 
-All NATS operations run as **Next.js Server Actions**, keeping credentials and connection logic server-side. A unified wrapper handles error handling and JSON serialization:
+All NATS operations run as **Next.js Server Actions** under `src/features/<domain>/actions.ts`, keeping credentials and connection logic server-side. A unified wrapper in `src/lib/server-action.ts` handles error handling, operation naming and JSON serialization:
 
 ```typescript
 // Standard response shape
@@ -235,11 +258,26 @@ type ActionResponse<T> =
   | { success: true; data: T }
   | { success: false; error: string };
 
-// Example usage
-const result = await createStream(activeConnection, streamConfig);
-if (result.success) {
-  // result.data is type-safe
+// Feature action (server side)
+"use server";
+import { withJetStream, type ActionResponse } from "@/lib/server-action";
+
+export async function createStream(
+  config: NatsConnectionConfig,
+  opts: StreamOptions,
+): Promise<ActionResponse<StreamInfo>> {
+  return withJetStream(config, "createStream", async ({ jsm }) => {
+    return jsm.streams.add(opts);
+  });
 }
+
+// Client component
+const res = await createStream(activeConnection, streamConfig);
+if (!res.success) {
+  toast.error(res.error);
+  return;
+}
+// res.data is type-safe
 ```
 
 ---
@@ -271,6 +309,7 @@ npx playwright test tests/functional-streams.spec.ts tests/functional-messaging.
 | `messaging.spec.ts` | Publish page UI |
 | `settings.spec.ts` | Application settings and theme toggle UI |
 | `functional-streams.spec.ts` | **Real** stream creation via NATS |
+| `functional-consumers-and-messages.spec.ts` | **Real** consumer + message browser flows |
 | `functional-kv.spec.ts` | **Real** KV bucket operations via NATS |
 | `functional-os.spec.ts` | **Real** Object Store operations via NATS |
 | `functional-messaging.spec.ts` | **Real** publish and request-reply via NATS |
@@ -300,6 +339,9 @@ npx playwright test tests/functional-streams.spec.ts tests/functional-messaging.
 ## 🗺️ Roadmap
 
 - [x] Object Store support (browse, upload, download, delete, seal)
+- [x] Command Palette & global keyboard shortcuts
+- [x] Auto-refresh and URL-synced filter state
+- [x] Message browser with consumer creation
 - [ ] Live dashboard with real-time stream stats
 - [ ] NATS Cluster topology view
 - [ ] Multi-tab message comparison
